@@ -12,10 +12,19 @@ export default (props) => {
   const onCollapse = () => setCollapsed(!collapsed);
   let location = useLocation();
   return (
-    <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
-      <Menu theme="dark" defaultSelectedKeys={[location.pathname]} mode="inline">
+    <Sider
+      collapsible
+      collapsed={collapsed}
+      onCollapse={onCollapse}
+      className="menu-container"
+    >
+      <Menu
+        className="menu"
+        selectedKeys={[location.pathname]}
+        mode="inline"
+      >
         {menu.map((m, idx) => (
-          <Menu.Item key={m.path} icon={m.icon}>
+          <Menu.Item key={m.path} icon={m.icon} className="menu-item">
             <NavLink to={m.path}>{m.name}</NavLink>
           </Menu.Item>
         ))}
