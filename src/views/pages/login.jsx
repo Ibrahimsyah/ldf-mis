@@ -9,13 +9,13 @@ export default ({ history }) => {
   return (
     <>
       <Row className="container fadeIn">
-        <Col span={12} className="left-section">
+        <Col md={12} sm={24} className="left-section">
           <h1>Landoh Digital Farm</h1>
           <h2>Information System</h2>
         </Col>
-        <Col span={12} className="right-section">
+        <Col md={12} sm={24} className="right-section">
           <h1>Login</h1>
-          <Form onFinish={onLogin}>
+          <Form onFinish={onLogin} style={{width:'100%'}}>
             <Form.Item name="id">
               <Input placeholder="Username atau Email" />
             </Form.Item>
