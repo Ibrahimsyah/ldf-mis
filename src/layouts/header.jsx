@@ -21,7 +21,7 @@ export default () => {
         <h5>{currentTime}</h5>
       </div>
       <div className="right">
-        Kanan
+        Keluar
       </div>
     </Header>
   );

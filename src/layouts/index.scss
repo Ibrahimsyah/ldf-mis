@@ -43,3 +43,20 @@
 .ant-layout-sider-trigger {
   background-color: $secondary-color;
 }
+
+@media (max-width:768px){
+  .menu-container{
+    display: none;
+  }
+}
+
+@media (max-width: 480px){
+  .header{
+    h2{
+      font-size: 1em;
+    }
+    h5{
+      font-size: .7em;
+    }
+  }
+}
