@@ -11,7 +11,7 @@ const { Content, Footer } = Layout;
 export default () => {
   return (
     <>
-      <Router basename="/ldf-mis">
+      <Router>
         <Layout style={{ minHeight: "100vh" }}>
           <Sidebar />
           <Layout className="site-layout">
