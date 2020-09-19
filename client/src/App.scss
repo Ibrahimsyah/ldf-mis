@@ -1,15 +1,23 @@
 $main-color: #129b38;
 $secondary-color: #11772e;
 
-.fadeIn{
-    animation: fade .5s linear;
+.fadeIn {
+  animation: fade 0.5s linear;
 }
 
-@keyframes fade{
-    0%{
-        opacity: 0;
-    }
-    100%{
-        opacity: 1;
-    }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #333333;
+}
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

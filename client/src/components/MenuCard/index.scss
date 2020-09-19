@@ -1,0 +1,25 @@
+@import "../../App.scss";
+
+.card-container {
+  cursor: pointer;
+  background: #ffffff;
+  height: 150px;
+  padding: 16px;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  .menu-icon {
+    font-size: 4em;
+    color: $main-color;
+  }
+  h1,
+  h5 {
+    margin: 0;
+  }
+  h1 {
+    font-size: 2em;
+    line-height: 1.2em;
+  }
+}

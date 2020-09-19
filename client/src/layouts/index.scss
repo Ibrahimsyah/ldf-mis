@@ -32,6 +32,9 @@
   &::after {
     border-right: 3px solid $secondary-color !important;
   }
+  &:hover {
+    color: #ffffff;
+  }
 }
 .ant-menu-item-selected {
   background: $secondary-color !important;
@@ -44,19 +47,19 @@
   background-color: $secondary-color;
 }
 
-@media (max-width:768px){
-  .menu-container{
+@media (max-width: 768px) {
+  .menu-container {
     display: none;
   }
 }
 
-@media (max-width: 480px){
-  .header{
-    h2{
+@media (max-width: 480px) {
+  .header {
+    h2 {
       font-size: 1em;
     }
-    h5{
-      font-size: .7em;
+    h5 {
+      font-size: 0.7em;
     }
   }
 }

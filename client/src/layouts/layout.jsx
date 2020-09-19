@@ -3,10 +3,11 @@ import { Layout } from "antd";
 import { Switch, Route, Redirect } from "react-router-dom";
 import routes from "../routes";
 import Sidebar from "./sidebar";
+import Footer from "./footer";
 import Header from "./header";
 import "./index.scss";
 
-const { Content, Footer } = Layout;
+const { Content } = Layout;
 
 export default () => {
   return (
@@ -20,12 +21,10 @@ export default () => {
               {routes.map((r, idx) => (
                 <Route path={r.path} key={idx} exact component={r.component} />
               ))}
-              <Redirect exact from="/" to="/dashboard"/>
+              <Redirect exact from="/" to="/dashboard" />
             </Switch>
           </Content>
-          <Footer style={{ textAlign: "center", background: "#fff" }}>
-            Ant Design ©2018 Created by Ant UED
-          </Footer>
+          <Footer />
         </Layout>
       </Layout>
     </>
