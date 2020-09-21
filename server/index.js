@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 80
 
 app.use(cors())
 app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: false }))
 app.use('/', services)
 
 app.listen(PORT, () => console.log('Server run at port', PORT))

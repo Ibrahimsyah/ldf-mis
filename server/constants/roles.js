@@ -1,5 +1,5 @@
 module.exports = {
-    ADMIN: "ADMIN",
-    AGEN: "AGEN",
-    RESELLER: "RESELLER"
+    ADMIN: "Admin",
+    AGEN: "Agen",
+    RESELLER: "Reseller"
 }
