@@ -1,10 +1,14 @@
-import React from 'react';
-import './App.scss';
-import Layout from './layouts'
+import React from "react";
+import { Provider } from "react-redux";
+import "./App.scss";
+import Layout from "./layouts";
+import store from "./stores";
 
 function App() {
   return (
-    <Layout/>
+    <Provider store={store}>
+      <Layout />
+    </Provider>
   );
 }
 

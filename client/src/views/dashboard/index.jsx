@@ -13,16 +13,16 @@ export default () => {
       <Row gutter={24}>
         <MenuCard
           title="Penjualan"
-          subtitle="Input Data Penjualan"
+          subtitle="Kelola Data Penjualan"
           Icon={AreaChartOutlined}
         />
         <MenuCard
-          title="Manajemen Produk"
+          title="Produk"
           subtitle="Kelola Daftar Produk dan Harga"
           Icon={ShopOutlined}
         />
         <MenuCard
-          title="Manajemen User"
+          title="User"
           subtitle="Kelola Agen dan Reseller"
           Icon={TeamOutlined}
         />
