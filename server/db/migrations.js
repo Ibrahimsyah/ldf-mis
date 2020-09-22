@@ -55,8 +55,9 @@ module.exports = {
                 })
                 .createTable('prices', table => {
                     table.string('product_id', 100).references('id').inTable('products')
-                    table.string('role_id', 100).references('id').inTable('roles')
-                    table.integer('price').defaultTo(0)
+                    table.integer('admin_price').defaultTo(0)
+                    table.integer('agen_price').defaultTo(0)
+                    table.integer('reseller_price').defaultTo(0)
                 })
                 .then(() => {
                     trx.commit()
