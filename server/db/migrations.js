@@ -53,6 +53,11 @@ module.exports = {
                     table.timestamp('waktu')
                     table.integer('jumlah').defaultTo(0)
                 })
+                .createTable('prices', table => {
+                    table.string('product_id', 100).references('id').inTable('products')
+                    table.string('role_id', 100).references('id').inTable('roles')
+                    table.integer('price').defaultTo(0)
+                })
                 .then(() => {
                     trx.commit()
                     res.json('Migration Success')
@@ -66,6 +71,7 @@ module.exports = {
 
     down: (_, res) => {
         db.schema
+            .dropTableIfExists('prices')
             .dropTableIfExists('pembelian')
             .dropTableIfExists('penjualan')
             .dropTableIfExists('reseller')
