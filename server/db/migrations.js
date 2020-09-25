@@ -22,6 +22,9 @@ module.exports = {
                     table.string('username', 16)
                     table.string('email', 30)
                     table.string('password', 60)
+                    table.timestamp('created_at').defaultTo(db.raw('CURRENT_TIMESTAMP'))
+                    table.string('created_by', 100)
+                    table.boolean('activated')
                 })
                 .createTable('profiles', table => {
                     table.string('user_id', 100).references('id').inTable('users').primary()

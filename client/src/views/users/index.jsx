@@ -7,18 +7,18 @@ export default () => {
   const { table, initState } = config;
   const [state] = useState(initState);
   return (
-    <Content title="Produk">
+    <Content title="User">
       <Row gutter={24} style={{ marginBottom: 16 }}>
         <Col xs={24} md={16}>
           <Input.Search placeholder="Cari berdasarkan nama" />
         </Col>
         <Col xs={24} md={8}>
           <Button type="primary" style={{ width: "100%" }}>
-            Tambah Produk
+            Tambah User
           </Button>
         </Col>
       </Row>
-      <Table {...table()} dataSource={state.data}/>
+      <Table {...table()} dataSource={state.data} />
     </Content>
   );
 };

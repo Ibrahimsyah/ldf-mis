@@ -11,6 +11,7 @@ export default () => {
           .filter((m) => !m.ignore)
           .map((m) => (
             <MenuCard
+              key={m.name}
               title={m.name}
               subtitle={m.description}
               Icon={m.icon}

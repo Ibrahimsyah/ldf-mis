@@ -1,29 +1,7 @@
 
 const parsePrice = (price) => "Rp." + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 export default {
-    table: {
-        columns: [
-            {
-                title: 'Nama Produk',
-                dataIndex: 'product_name',
-                key: 'product_id',
-            },
-            {
-                title: 'Harga Pusat',
-                dataIndex: 'admin_price',
-                render: row => parsePrice(row)
-            },
-            {
-                title: 'Harga Agen',
-                dataIndex: 'agen_price',
-                render: row => parsePrice(row)
-            },
-            {
-                title: 'Harga Reseller',
-                dataIndex: 'reseller_price',
-                render: row => parsePrice(row)
-            }
-        ],
+    initState: {
         data: [
             {
                 product_id: 1,
@@ -40,5 +18,32 @@ export default {
                 reseller_price: 40000
             }
         ]
+    },
+    table: () => {
+        return {
+            rowKey:'product_id',
+            columns: [
+                {
+                    title: 'Nama Produk',
+                    dataIndex: 'product_name',
+                    key: 'product_id',
+                },
+                {
+                    title: 'Harga Pusat',
+                    dataIndex: 'admin_price',
+                    render: row => parsePrice(row)
+                },
+                {
+                    title: 'Harga Agen',
+                    dataIndex: 'agen_price',
+                    render: row => parsePrice(row)
+                },
+                {
+                    title: 'Harga Reseller',
+                    dataIndex: 'reseller_price',
+                    render: row => parsePrice(row)
+                }
+            ],
+        }
     }
 }
