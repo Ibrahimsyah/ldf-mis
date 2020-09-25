@@ -24,7 +24,7 @@ export default (props) => {
         mode="inline"
       >
         {menu.map((m, idx) => (
-          <Menu.Item key={m.path} icon={m.icon} className="menu-item">
+          <Menu.Item key={m.path} icon={<m.icon/>} className="menu-item">
             <NavLink to={m.path}>{m.name}</NavLink>
           </Menu.Item>
         ))}
