@@ -3,48 +3,48 @@ export default {
     initState: {
         data: [
             {
-                user_id: 1,
-                user_name: 'Fulan 1',
-                user_role: 'Admin',
+                user_id   : 1,
+                user_name : 'Fulan 1',
+                user_role : 'Admin',
                 created_by: 'Ibrahimsyah Z',
                 created_at: (new Date()).toLocaleDateString(),
-                status: 'Aktif'
+                status    : 'Aktif'
             },
             {
-                user_id: 2,
-                user_name: 'Fulan 2',
-                user_role: 'Agen',
+                user_id   : 2,
+                user_name : 'Fulan 2',
+                user_role : 'Agen',
                 created_by: 'Admin',
                 created_at: (new Date()).toLocaleDateString(),
-                status: 'Menunggu Persetujuan'
+                status    : 'Menunggu Persetujuan'
             },
         ]
     },
     table: () => {
         return {
-            rowKey: 'user_id',
+            rowKey : 'user_id',
             columns: [
                 {
-                    title: 'Nama User',
+                    title    : 'Nama User',
                     dataIndex: 'user_name',
-                    key: 'user_id',
+                    key      : 'user_id',
                 },
                 {
-                    title: 'Role User',
+                    title    : 'Role User',
                     dataIndex: 'user_role',
                 },
                 {
-                    title: 'Didaftarkan Oleh',
+                    title    : 'Didaftarkan Oleh',
                     dataIndex: 'created_by',
                 },
                 {
-                    title: 'Didaftarkan Pada',
+                    title    : 'Didaftarkan Pada',
                     dataIndex: 'created_at',
                 },
                 {
-                    title: 'Status',
+                    title    : 'Status',
                     dataIndex: 'status',
-                    align: 'center'
+                    align    : 'center'
                 }
             ],
         }

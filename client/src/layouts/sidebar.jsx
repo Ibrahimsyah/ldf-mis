@@ -1,34 +1,23 @@
-import React, { useState } from "react";
-import { Layout, Menu } from "antd";
+import React from "react";
+import { Layout } from "antd";
 import menu from "../routes/menu";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./index.scss";
 
 const { Sider } = Layout;
 
-export default (props) => {
-  const [collapsed, setCollapsed] = useState(false);
-
-  const onCollapse = () => setCollapsed(!collapsed);
-  let location = useLocation();
+export default () => {
   return (
-    <Sider
-      collapsible
-      collapsed={collapsed}
-      onCollapse={onCollapse}
-      className="menu-container"
-    >
-      <Menu
-        className="menu"
-        selectedKeys={[location.pathname]}
-        mode="inline"
-      >
-        {menu.map((m, idx) => (
-          <Menu.Item key={m.path} icon={<m.icon/>} className="menu-item">
-            <NavLink to={m.path}>{m.name}</NavLink>
-          </Menu.Item>
-        ))}
-      </Menu>
+    <Sider className="menu-container">
+      <h1 className="title">LDF</h1>
+      {menu.map((m, idx) => (
+        <NavLink to={m.path} className="menu-item" key={idx}>
+          <span role="img" className="menu-logo">
+            <m.icon />
+          </span>
+          {m.name}
+        </NavLink>
+      ))}
     </Sider>
   );
 };

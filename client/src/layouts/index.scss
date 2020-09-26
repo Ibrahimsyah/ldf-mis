@@ -1,14 +1,14 @@
 @import "../App.scss";
 
 .header {
-  background: #ffffff;
-  height: auto;
-  line-height: initial;
-  display: flex;
-  flex-direction: row;
+  background     : #ffffff;
+  height         : auto;
+  line-height    : initial;
+  display        : flex;
+  flex-direction : row;
   justify-content: space-between;
-  padding: 16px;
-  align-items: center;
+  padding        : 16px;
+  align-items    : center;
   h2 {
     margin-bottom: 0.1em;
   }
@@ -19,34 +19,27 @@
 
 .menu-container {
   background: $main-color;
-  .menu {
+  .title {
+    color      : white;
+    font-weight: bold;
+    text-align : center;
+    font-size  : 2em;
+    margin     : 10px 0px;
+  }
+  .menu-item {
+    padding         : 15px 24px;
+    display         : block;
     background-color: transparent;
-    color: white;
+    color           : white;
+    .menu-logo {
+      margin-right: 10px;
+    }
+    &.active,
+    &:hover {
+      background-color: $secondary-color;
+    }
   }
 }
-.ant-menu-item {
-  a {
-    color: white !important;
-  }
-
-  &::after {
-    border-right: 3px solid $secondary-color !important;
-  }
-  &:hover {
-    color: #ffffff;
-  }
-}
-.ant-menu-item-selected {
-  background: $secondary-color !important;
-  color: white;
-}
-.ant-menu-inline {
-  border: none;
-}
-.ant-layout-sider-trigger {
-  background-color: $secondary-color;
-}
-
 @media (max-width: 768px) {
   .menu-container {
     display: none;

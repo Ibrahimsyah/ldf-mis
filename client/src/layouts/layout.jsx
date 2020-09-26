@@ -19,7 +19,12 @@ export default () => {
           <Content style={{ margin: "16px" }}>
             <Switch>
               {routes.map((r, idx) => (
-                <Route path={r.path} key={idx} exact component={r.component} />
+                <Route
+                  path={r.path}
+                  key={idx}
+                  exact={r.exact || false}
+                  render={(props) => <r.component {...props} />}
+                />
               ))}
               <Redirect exact from="/" to="/dashboard" />
             </Switch>

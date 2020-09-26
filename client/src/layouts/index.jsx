@@ -21,7 +21,7 @@ const ProtectedRoute = ({ user }) => {
   );
 };
 
-export default ({ user }) => {
+export default (props) => {
   return (
     <Router>
       <Switch>
