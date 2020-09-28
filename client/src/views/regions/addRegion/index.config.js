@@ -3,7 +3,7 @@ export default {
     },
     layout: {
         formBody: {
-            labelCol: { span: 4 },
+            labelCol  : { span: 4 },
             wrapperCol: { span: 20 },
         },
         formFooter: {
@@ -12,12 +12,12 @@ export default {
     },
     schema: {
         region_name: {
-            name: 'region_name',
+            name : 'region_name',
             label: 'Nama Region',
             rules: [
                 {
                     required: true,
-                    message: 'Nama Region tidak boleh kosong'
+                    message : 'Nama Region tidak boleh kosong'
                 }
             ]
         },

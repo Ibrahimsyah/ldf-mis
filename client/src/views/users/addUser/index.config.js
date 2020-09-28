@@ -28,11 +28,11 @@ export default {
         ],
         region: [
             {
-                region_id: 1,
+                region_id  : 1,
                 region_name: 'Rembang'
             },
             {
-                region_id: 2,
+                region_id  : 2,
                 region_name: 'Malang'
             },
         ]
