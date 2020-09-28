@@ -8,22 +8,13 @@ export default () => {
   const [form] = Form.useForm();
 
   return (
-    <Content title="Tambah Produk">
+    <Content title="Tambah Region">
       <Form
         form={form}
         {...layout.formBody}
         onFinish={(val) => console.log(val)}
       >
-        <Form.Item {...schema.product_name}>
-          <Input />
-        </Form.Item>
-        <Form.Item {...schema.hq_price}>
-          <Input />
-        </Form.Item>
-        <Form.Item {...schema.agen_price}>
-          <Input />
-        </Form.Item>
-        <Form.Item {...schema.reseller_price}>
+        <Form.Item {...schema.region_name}>
           <Input />
         </Form.Item>
         <Form.Item {...layout.formFooter}>

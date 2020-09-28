@@ -1,22 +1,23 @@
 import React, { useState } from "react";
 import { Form, Input, Button, Select } from "antd";
 import Content from "../../../components/Content";
-import {RESELLER} from "../../../contants/UserRoles";
+import { RESELLER, AGEN } from "../../../contants/UserRoles";
 
 import config from "./index.config";
 
 const { Option } = Select;
 export default () => {
   const { schema, layout, state } = config;
-  const [roles]                   = useState(state.roles);
-  const [userRole, setUserRole]   = useState("");
-  const [agen]                    = useState(state.agen);
-  const [form]                    = Form.useForm();
+  const [roles] = useState(state.roles);
+  const [agen] = useState(state.agen);
+  const [region] = useState(state.region);
+  const [userRole, setUserRole] = useState("");
+  const [form] = Form.useForm();
 
   const handleRoleChange = (value) => {
     setUserRole(roles.find((role) => role.role_id === value).role_name);
   };
-  
+
   return (
     <Content title="Tambah User">
       <Form
@@ -46,6 +47,25 @@ export default () => {
             ))}
           </Select>
         </Form.Item>
+        {userRole === AGEN && (
+          <Form.Item {...schema.region_id}>
+            <Select
+              placeholder="Region"
+              allowClear
+              showSearch
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+              }
+            >
+              {region.map((r) => (
+                <Option value={r.region_id} key={r.region_id}>
+                  {r.region_name}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+        )}
         {userRole === RESELLER && (
           <Form.Item {...schema.agen_id}>
             <Select

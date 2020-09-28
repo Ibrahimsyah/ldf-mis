@@ -3,8 +3,7 @@ import { Table, Input, Row, Col, Button } from "antd";
 import Content from "../../components/Content";
 import config from "./index.config";
 
-export default (props) => {
-  const { history } = props;
+export default ({ history }) => {
   const { table, initState } = config;
   const [state] = useState(initState);
 
@@ -16,7 +15,7 @@ export default (props) => {
     console.log(row);
   };
   return (
-    <Content title="Produk">
+    <Content title="Region">
       <Row gutter={24} style={{ marginBottom: 16 }}>
         <Col xs={24} md={16}>
           <Input.Search placeholder="Cari berdasarkan nama" />
@@ -25,9 +24,9 @@ export default (props) => {
           <Button
             type="primary"
             style={{ width: "100%" }}
-            onClick={() => history.push("/product/add")}
+            onClick={() => history.push("/region/add")}
           >
-            Tambah Produk
+            Tambah Region
           </Button>
         </Col>
       </Row>

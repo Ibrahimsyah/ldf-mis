@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Row } from "antd";
 import MenuCard from "../../components/MenuCard";
-import menu from "../../routes/menu";
+import { getMenu } from "../../routes/menu";
 
 export default () => {
+  const [menu, setMenu] = useState([]);
+
+  useEffect(() => {
+    const menu = getMenu();
+    setMenu(menu);
+  }, []);
   return (
     <div className="fadeIn">
       <Row gutter={24}>

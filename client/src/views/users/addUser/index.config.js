@@ -25,6 +25,16 @@ export default {
                 agen_name  : 'Fulanah',
                 agen_region: 'Malang'
             }
+        ],
+        region: [
+            {
+                region_id: 1,
+                region_name: 'Rembang'
+            },
+            {
+                region_id: 2,
+                region_name: 'Malang'
+            },
         ]
     },
     layout: {
@@ -73,6 +83,16 @@ export default {
                 {
                     required: true,
                     message : 'Role tidak boleh kosong'
+                }
+            ]
+        },
+        region_id: {
+            name : 'region_id',
+            label: 'Region',
+            rules: [
+                {
+                    required: true,
+                    message : 'Pilih Region tempat Agen berada'
                 }
             ]
         },

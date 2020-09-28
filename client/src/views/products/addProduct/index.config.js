@@ -1,23 +1,9 @@
 export default {
     state: {
-        roles: [
-            {
-                role_id  : 1,
-                role_name: 'Admin'
-            },
-            {
-                role_id  : 2,
-                role_name: 'Agen'
-            },
-            {
-                role_id  : 3,
-                role_name: 'Reseller'
-            },
-        ]
     },
     layout: {
         formBody: {
-            labelCol  : { span: 4 },
+            labelCol: { span: 4 },
             wrapperCol: { span: 20 },
         },
         formFooter: {
@@ -25,68 +11,39 @@ export default {
         }
     },
     schema: {
-        username: {
-            name : 'username',
-            label: 'Username',
+        product_name: {
+            name: 'product_name',
+            label: 'Nama Produk',
             rules: [
                 {
                     required: true,
-                    message : 'Username tidak boleh kosong'
+                    message: 'Nama Produk tidak boleh kosong'
                 }
             ]
         },
-        email: {
-            name : 'email',
-            label: 'Email (Jika ada)',
+        hq_price: {
+            name: 'hq_price',
+            label: 'Harga Pusat',
             rules: [{
-                type   : 'email',
-                message: 'Pastikan sesuai format: contoh@email.com'
+                required: true,
+                message: 'Harga tidak boleh kosong'
             }]
         },
-        password: {
-            name : 'password',
-            label: 'Password',
-            rules: [
-                {
-                    required: true,
-                    min     : 8,
-                    message : 'Password Minimal 8 Karakter'
-                }
-            ]
+        agen_price: {
+            name: 'agen_price',
+            label: 'Harga Agen',
+            rules: [{
+                required: true,
+                message: 'Harga tidak boleh kosong'
+            }]
         },
-        role: {
-            name : 'role_id',
-            label: 'Role',
-            rules: [
-                {
-                    required: true,
-                    message : 'Role tidak boleh kosong'
-                }
-            ]
-        },
-        nama: {
-            name : 'nama',
-            label: 'Nama Lengkap',
-            rules: [
-                {
-                    required: true,
-                    message : 'Nama Lengkap tidak boleh kosong'
-                }
-            ]
-        },
-        alamat: {
-            name : 'alamat',
-            label: 'Alamat Lengkap',
-            rules: [
-                {
-                    required: true,
-                    message : 'Alamat Lengkap tidak boleh kosong'
-                }
-            ]
-        },
-        pekerjaan: {
-            name : 'pekerjaan',
-            label: 'Pekerjaan',
+        reseller_price: {
+            name: 'reseller_price',
+            label: 'Harga Reseller',
+            rules: [{
+                required: true,
+                message: 'Harga tidak boleh kosong'
+            }]
         },
     }
 }
