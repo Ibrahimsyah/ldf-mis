@@ -5,12 +5,17 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
+import {message} from 'antd'
 import { connect } from "react-redux";
 import MainLayout from "./layout";
 
 //Page
 import LoginPage from "../views/pages/login";
 
+
+message.config({
+  top:60
+})
 const ProtectedRoute = ({ user }) => {
   return (
     <Route

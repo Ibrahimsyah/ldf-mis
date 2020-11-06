@@ -27,7 +27,7 @@ const App = (props) => {
     if (auth) {
       history.replace("/");
     }
-  }, [auth]);
+  }, [auth, history]);
   return (
     <>
       <Row className="container fadeIn">

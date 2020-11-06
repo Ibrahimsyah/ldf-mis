@@ -30,10 +30,16 @@ const getOption = (method, url, data = {}) => {
 
 const doRequest = async option => {
     try {
-        const {data} = await axios.request(option)
+        const { data } = await axios.request(option)
         return Promise.resolve(data)
-    }catch(err) {
-        return Promise.reject(err.response.data.error)
+    } catch (err) {
+        let error = null
+        if (typeof (err) === "object") {
+            error = "Ada Kerusakan Server, Mohon Hubungi Administrator"
+        } else {
+            error = err.response.data.error
+        }
+        return Promise.reject(error)
     }
 }
 
