@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Layout } from "antd";
+import { useDispatch } from "react-redux";
+import { clearAuth } from "../stores/actions/auth";
 import Moment from "moment";
 import "./index.scss";
 const { Header } = Layout;
 export default () => {
+  const dispatch = useDispatch();
   const [currentTime, setCurrentTime] = useState(
     Moment(new Date()).locale("id").format("dddd, DD MMMM YYYY, HH:mm:ss")
   );
+
+  const logout = () => {
+    dispatch(clearAuth());
+  };
   useEffect(() => {
     setInterval(() => {
       setCurrentTime(
@@ -21,7 +28,9 @@ export default () => {
         <h5>{currentTime}</h5>
       </div>
       <div className="right">
-        Keluar
+        <div onClick={logout} className="btn-logout">
+          Keluar
+        </div>
       </div>
     </Header>
   );

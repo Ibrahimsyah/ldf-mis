@@ -23,7 +23,7 @@ module.exports = {
                 role_id   : '470ec00b-d332-43f4-8c9e-71fae43f4819',
                 username  : 'ibrahimsyah',
                 email     : 'ibra.himsyah10@gmail.com',
-                password  : '$2b$11$VteAWLPX2jeBK1Fg65U0ZO9q3Rt14kp8j7zCTWVOLIlCBF.Ot.pqm',
+                password  : '$2b$11$VteAWLPX2jeBK1Fg65U0ZO9q3Rt14kp8j7zCTWVOLIlCBF.Ot.pqm', //Ibrahimsyah Pass
                 activated : true,
                 created_by: '88630295-d95e-4f71-8096-90a4024521eb'
             },
@@ -32,7 +32,7 @@ module.exports = {
                 role_id   : '470ec00b-d332-43f4-8c9e-71fae43f4819',
                 username  : 'admin',
                 email     : 'rifai234@gmail.com',
-                password  : '$2b$11$sebmhBQa1WfGJdr/LMnCLOk2XoZxNhM1OzoWRG5TcIK0i0/sdTIji',
+                password  : '$2b$11$sebmhBQa1WfGJdr/LMnCLOk2XoZxNhM1OzoWRG5TcIK0i0/sdTIji', //123456
                 activated : true,
                 created_by: '9fd70b08-11fd-4153-9cb3-1b378a87747d'
             }

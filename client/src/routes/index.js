@@ -5,6 +5,8 @@ import User from '../views/users'
 import AddUser from '../views/users/addUser'
 import Region from '../views/regions'
 import AddRegion from '../views/regions/addRegion'
+import Sales from '../views/sales'
+import AddSales from '../views/sales/addSales'
 
 export default [
     {
@@ -34,5 +36,13 @@ export default [
     {
         path     : '/region',
         component: Region
+    },
+    {
+        path     : '/sales/add',
+        component: AddSales
+    },
+    {
+        path     : '/sales',
+        component: Sales
     }
 ]

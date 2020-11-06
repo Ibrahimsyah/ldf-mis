@@ -5,7 +5,7 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-
+import { connect } from "react-redux";
 import MainLayout from "./layout";
 
 //Page
@@ -15,19 +15,28 @@ const ProtectedRoute = ({ user }) => {
   return (
     <Route
       render={(props) =>
-        true ? <MainLayout {...props} /> : <Redirect to="/login" />
+        user ? <MainLayout {...props} /> : <Redirect to="/login" />
       }
     />
   );
 };
 
-export default (props) => {
+const App = (props) => {
+  const { auth } = props;
   return (
     <Router>
       <Switch>
         <Route path="/login" name="login" component={LoginPage} />
-        <ProtectedRoute path="/" />
+        <ProtectedRoute path="/" user={auth} />
       </Switch>
     </Router>
   );
 };
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth,
+  };
+};
+
+export default connect(mapStateToProps)(App);

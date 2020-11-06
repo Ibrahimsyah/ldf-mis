@@ -11,7 +11,7 @@ export default (state = initState, action) => {
             return { ...payload }
         case CLEAR_AUTH:
             localStorage.removeItem(localStorageAuthKey)
-            return {}
+            return null
         default:
             return state
     }
