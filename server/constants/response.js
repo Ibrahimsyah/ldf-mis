@@ -1,19 +1,19 @@
 module.exports = {
     success: writer => {
-        writer.status(200).json({
+        return writer.status(200).json({
             status: 'Success'
         })
     },
-    error: message => {
-        return {
-            error: message
-        }
+    error: (writer, status, error) => {
+        return writer.status(status).json({
+            error: error
+        })
     },
     systemError: {
         error: 'Kesalahan Server, Hubungi Administrator'
     },
     unauthorized: writer => {
-        writer.status(401).json({
+        return writer.status(401).json({
             error: 'Unauthorized'
         })
     }

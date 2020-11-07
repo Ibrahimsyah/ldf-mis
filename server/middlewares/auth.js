@@ -10,7 +10,13 @@ module.exports = {
         } else {
             const token = authorization.split(' ')[1]
             const payload = await jwt.verify(token, SECRET)
-            return payload ? next() : response.unauthorized(res)
+            if(payload){
+                req.role_name = payload.role_name
+                req.user_id = payload.user_id
+                return next()
+            }else{
+                return response.unauthorized(res)
+            }
         }
     },
 
