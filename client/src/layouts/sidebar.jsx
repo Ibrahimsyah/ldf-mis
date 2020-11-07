@@ -6,11 +6,12 @@ import "./index.scss";
 
 const { Sider } = Layout;
 
-export default () => {
+export default (props) => {
+  const {role_name} = props
   const [menu, setMenu] = useState([]);
 
   useEffect(() => {
-    const menu = getMenu();
+    const menu = getMenu(role_name);
     setMenu(menu);
   }, []);
   return (

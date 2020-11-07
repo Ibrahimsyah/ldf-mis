@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Row } from "antd";
+import { connect } from "react-redux";
 import MenuCard from "../../components/MenuCard";
 import { getMenu } from "../../routes/menu";
 
-export default () => {
+const App = (props) => {
+  const {
+    auth: { profile },
+  } = props;
   const [menu, setMenu] = useState([]);
 
   useEffect(() => {
-    const menu = getMenu();
+    const menu = getMenu(profile.role_name);
+    console.log(menu);
     setMenu(menu);
   }, []);
   return (
@@ -28,3 +33,11 @@ export default () => {
     </div>
   );
 };
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth,
+  };
+};
+
+export default connect(mapStateToProps)(App);

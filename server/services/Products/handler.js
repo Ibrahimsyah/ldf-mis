@@ -1,7 +1,6 @@
 const { v4 } = require('uuid')
 
 const db = require('../../db')
-const { AGEN, RESELLER, ADMIN } = require('../../constants/roles')
 const response = require('../../constants/response')
 
 module.exports = {

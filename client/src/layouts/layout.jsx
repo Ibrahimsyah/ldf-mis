@@ -13,7 +13,7 @@ export default (props) => {
   return (
     <>
       <Layout style={{ minHeight: "100vh" }}>
-        <Sidebar />
+        <Sidebar {...props}/>
         <Layout className="site-layout">
           <Header {...props}/>
           <Content style={{ margin: "16px" }}>

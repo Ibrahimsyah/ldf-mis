@@ -34,7 +34,7 @@ const doRequest = async option => {
         return Promise.resolve(data)
     } catch (err) {
         let error = null
-        if (typeof (err) === "object") {
+        if (!err.response?.data?.error) {
             error = "Ada Kerusakan Server, Mohon Hubungi Administrator"
         } else {
             error = err.response.data.error
