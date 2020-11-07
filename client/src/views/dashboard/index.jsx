@@ -12,9 +12,8 @@ const App = (props) => {
 
   useEffect(() => {
     const menu = getMenu(profile.role_name);
-    console.log(menu);
     setMenu(menu);
-  }, []);
+  }, [profile.role_name]);
   return (
     <div className="fadeIn">
       <Row gutter={24}>

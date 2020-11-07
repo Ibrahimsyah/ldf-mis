@@ -13,7 +13,7 @@ export default (props) => {
   useEffect(() => {
     const menu = getMenu(role_name);
     setMenu(menu);
-  }, []);
+  }, [role_name]);
   return (
     <Sider className="menu-container">
       <h1 className="title">LDF</h1>
