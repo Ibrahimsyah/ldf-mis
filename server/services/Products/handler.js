@@ -16,7 +16,7 @@ module.exports = {
                     .join('prices as p2', 'p2.product_id', '=', 'p.id')
                     .first()
         } else {
-            const { page, limit, keyword = '' } = req.query
+            const { page = 1, limit = 10, keyword = '' } = req.query
             const productTotal = (await db('products as p')).length
             const meta = {
                 total: productTotal,
@@ -39,7 +39,7 @@ module.exports = {
         try {
             await db('prices').where({ product_id: product_id }).del()
             await db('products').where({ id: product_id }).del()
-            res.status(200).json(response.success)
+            return response.success(res)
         } catch {
             next()
         }
@@ -51,7 +51,7 @@ module.exports = {
         try {
             await db('prices').where({ product_id: product_id }).update({ admin_price, agen_price, reseller_price })
             await db('products').where({ id: product_id }).update({ product_name })
-            res.status(200).json(response.success)
+            return response.success(res)
         } catch {
             next()
         }
@@ -73,10 +73,7 @@ module.exports = {
             }
             await db('products').insert(product)
             await db('prices').insert(price)
-            const response = {
-                message: 'success'
-            }
-            res.status(200).json(response)
+            return response.success(res)
         } catch (err) {
             next()
         }

@@ -43,7 +43,9 @@ export default (props) => {
 
   const refresh = async (page, limit, query) => {
     setState((state) => ({ ...state, loading: true }));
-    let url = `products?page=${page}&limit=${limit}`;
+    let url = `products?page=${page || initState.pagination.current}&limit=${
+      limit || initState.pagination.pageSize
+    }`;
     if (query) url += `&keyword=${query}`;
     const { meta, data } = await api.get(url);
     setState((state) => ({
@@ -55,7 +57,11 @@ export default (props) => {
   };
 
   useEffect(() => {
-    refresh(state.pagination.current, state.pagination.pageSize, state.searchQuery);
+    refresh(
+      state.pagination.current,
+      state.pagination.pageSize,
+      state.searchQuery
+    );
   }, [state.pagination.current, state.searchQuery]);
 
   return (

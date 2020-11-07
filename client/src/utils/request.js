@@ -3,7 +3,7 @@ import store from '../stores'
 
 const APIURL = process.env.REACT_APP_API_URL
 const getAuth = () => {
-    const auth = store.getState();
+    const {auth} = store.getState();
     return auth
 };
 const getHeaders = (refreshToken) => {
@@ -13,8 +13,8 @@ const getHeaders = (refreshToken) => {
         "Access-Control-Allow-Origin": true,
     };
     const authUser = getAuth();
-    if (!refreshToken && authUser && authUser.access_token) {
-        headers.Authorization = `Bearer ${authUser.access_token}`;
+    if (!refreshToken && authUser && authUser.token) {
+        headers.Authorization = `Bearer ${authUser.token}`;
     }
     return headers;
 };

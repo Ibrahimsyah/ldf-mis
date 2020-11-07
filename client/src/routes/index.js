@@ -6,6 +6,7 @@ import User from '../views/users'
 import AddUser from '../views/users/addUser'
 import Region from '../views/regions'
 import AddRegion from '../views/regions/addRegion'
+import EditRegion from '../views/regions/editRegion'
 import Sales from '../views/sales'
 import AddSales from '../views/sales/addSales'
 
@@ -33,6 +34,10 @@ export default [
     {
         path     : '/user',
         component: User
+    },
+    {
+        path     : '/region/edit/:region_id',
+        component: EditRegion
     },
     {
         path     : '/region/add',

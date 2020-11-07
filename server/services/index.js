@@ -1,7 +1,8 @@
 const router = require('express').Router()
 const HelloWorld = require('./HelloWorld')
 const Auth = require('./Auth')
-const Product = require('./Products')
+const Products = require('./Products')
+const Regions = require('./Regions')
 const migrations = require('../db/migrations')
 const seeder = require('../db/seeder')
 
@@ -11,7 +12,8 @@ const error = (req, res) => {
 
 router.use('/hello-world', HelloWorld)
 router.use('/auth', Auth)
-router.use('/products', Product)
+router.use('/products', Products)
+router.use('/regions', Regions)
 router.use('/migration/up', migrations.up)
 router.use('/migration/down', migrations.down)
 router.use('/seed', seeder.seed)
