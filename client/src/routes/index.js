@@ -1,6 +1,7 @@
 import Dashboard from '../views/dashboard'
 import Product from '../views/products'
 import AddProduct from '../views/products/addProduct'
+import EditProduct from '../views/products/editProduct'
 import User from '../views/users'
 import AddUser from '../views/users/addUser'
 import Region from '../views/regions'
@@ -12,6 +13,10 @@ export default [
     {
         path     : '/dashboard',
         component: Dashboard
+    },
+    {
+        path     : '/product/edit/:product_id',
+        component: EditProduct
     },
     {
         path     : '/product/add',

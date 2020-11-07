@@ -20,7 +20,7 @@ const ProtectedRoute = ({ user }) => {
   return (
     <Route
       render={(props) =>
-        user ? <MainLayout {...props} /> : <Redirect to="/login" />
+        user ? <MainLayout {...props} {...user.profile}/> : <Redirect to="/login" />
       }
     />
   );

@@ -9,13 +9,13 @@ import "./index.scss";
 
 const { Content } = Layout;
 
-export default () => {
+export default (props) => {
   return (
     <>
       <Layout style={{ minHeight: "100vh" }}>
         <Sidebar />
         <Layout className="site-layout">
-          <Header />
+          <Header {...props}/>
           <Content style={{ margin: "16px" }}>
             <Switch>
               {routes.map((r, idx) => (

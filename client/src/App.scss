@@ -25,6 +25,7 @@ h6 {
 
 .ant-btn-primary{
   background-color:$main-color;
+  margin: 0px 5px;
   border: none;
   &:hover, &:active, &:focus{
     background-color: $secondary-color;
