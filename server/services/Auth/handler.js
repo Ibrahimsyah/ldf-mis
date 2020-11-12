@@ -62,7 +62,7 @@ module.exports = {
             const isPasswordMatch = await bcrypt.compare(password, user.password)
             if (isPasswordMatch) {
                 const profile = await db('users as u')
-                    .select('p.nama', 'u.email', 'r.role_name')
+                    .select('p.nama', 'u.email', 'u.id', 'r.role_name')
                     .join('roles as r', 'r.id', '=', 'u.role_id')
                     .join('profiles as p', 'p.user_id', '=', 'u.id')
                     .where('u.username', id)
@@ -85,11 +85,11 @@ module.exports = {
                     error: 'Password anda salah'
                 })
             }
-            // if (user.activated === 0) {
-            //     return res.status(401).json({
-            //         error: 'Akun anda masih dalam proses persetujuan admin'
-            //     })
-            // }
+            if (user.activated === 0) {
+                return res.status(401).json({
+                    error: 'Akun anda masih dalam proses persetujuan admin'
+                })
+            }
         } else {
             return res.status(401).json({
                 error: 'Username/email tidak ditemukan'

@@ -2,14 +2,24 @@ const { v4 } = require('uuid')
 const bcrypt = require('bcrypt')
 
 const db = require('../../db')
-const { ADMIN } = require('../../constants/roles')
+const status = require('../../constants/activation')
+const { ADMIN, AGEN, RESELLER } = require('../../constants/roles')
 const response = require('../../constants/response')
 
 module.exports = {
     getUsers: async (req, res) => {
-        const { user_id } = req.query
+        const { user_id, agents } = req.query
         let data = null;
-        if (user_id) {
+        if (agents) {
+            [data] = await db.raw(
+                `select a.agen_id, p.nama as agen_name, group_concat(r.region_name SEPARATOR ', ') as agen_region 
+            from agen a
+            inner join regions r on r.id  = a.region_id  
+            inner join profiles p on p.user_id = a.agen_id 
+            group by agen_id 
+            `)
+        }
+        else if (user_id) {
             data =
                 await db('users as u')
                     .select('u.id', 'u.username', 'u.email', 'p.nama', 'p.alamat', 'p.pekerjaan', 'p2.nama as created_by')
@@ -38,7 +48,6 @@ module.exports = {
         }
         res.json(data)
     },
-
     deleteUser: async (req, res, next) => {
         const { user_id } = req.query
         try {
@@ -72,7 +81,7 @@ module.exports = {
     },
 
     addUser: async (req, res, next) => {
-        const { nama, username, role_id, email, password, alamat, pekerjaan } = req.body
+        const { nama, username, role_id = RESELLER.id, email, password, alamat, pekerjaan, agen_id, region_id } = req.body
         try {
             const existingUser = await db('users').where({ username: username })
             if (existingUser.length > 0) {
@@ -86,7 +95,7 @@ module.exports = {
                 email: email,
                 role_id: role_id,
                 created_by: req.user_id,
-                activated: req.role_name === ADMIN ? 1 : 0,
+                activated: req.role_name === AGEN.role_name ? false : true,
                 password: hashedPassword
             }
             const profile = {
@@ -97,6 +106,23 @@ module.exports = {
             }
             await db('users').insert(user)
             await db('profiles').insert(profile)
+            if (role_id === AGEN.id) {
+                const agents = region_id.map(id => {
+                    return {
+                        agen_id: user_id,
+                        region_id: id
+                    }
+                })
+                await db('agen').insert(agents)
+            } else if (role_id === RESELLER.id) {
+                const { region_id } = await db('agen').select('region_id').where({ agen_id: agen_id }).first()
+                const reseller = {
+                    agen_id: agen_id,
+                    region_id: region_id,
+                    reseller_id: user_id,
+                }
+                await db('reseller').insert(reseller)
+            }
             return response.success(res)
         } catch (err) {
             console.log(err)

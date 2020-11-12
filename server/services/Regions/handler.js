@@ -14,7 +14,7 @@ module.exports = {
                     .where({ id: region_id })
                     .first()
         } else {
-            const { page = 1, limit = 10, keyword = '' } = req.query
+            const { page = 1, limit = 10000, keyword = '' } = req.query
             const regionTotal = (await db('regions as r')).length
             const meta = {
                 total: regionTotal,

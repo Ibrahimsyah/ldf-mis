@@ -5,8 +5,8 @@ import config from "./index.config";
 
 export default ({ history }) => {
   const { table, initState } = config;
-  const [state]              = useState(initState);
-  
+  const [state] = useState(initState);
+
   return (
     <Content title="User">
       <Row gutter={24} style={{ marginBottom: 16 }}>

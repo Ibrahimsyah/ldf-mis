@@ -35,14 +35,13 @@ module.exports = {
                 .createTable('agen', table => {
                     table.string('region_id', 100).references('id').inTable('regions')
                     table.string('agen_id', 100).references('id').inTable('users')
-                    table.primary('region_id', 'user_id')
+                    table.primary(['region_id', 'agen_id'])
                 })
                 .createTable('reseller', table => {
                     table.string('agen_id', 100).references('agen_id').inTable('agen')
                     table.string('region_id', 100).references('region_id').inTable('agen')
                     table.string('reseller_id', 100).references('id').inTable('users')
-                    table.boolean('activated')
-                    table.primary('agen_id', 'region_id', 'reseller_id')
+                    table.primary(['agen_id', 'region_id', 'reseller_id'])
                 })
                 .createTable('penjualan', table => {
                     table.string('seller_id', 100).references('id').inTable('users')
@@ -68,6 +67,7 @@ module.exports = {
                 })
                 .catch(err => {
                     trx.rollback()
+                    res.json({error: err})
                     console.error(err)
                 })
         })

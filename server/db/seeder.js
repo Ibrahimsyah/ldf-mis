@@ -3,20 +3,7 @@ const { ADMIN, AGEN, RESELLER } = require('../constants/roles')
 
 module.exports = {
     seed: async (_, res) => {
-        const roles = [
-            {
-                id       : '470ec00b-d332-43f4-8c9e-71fae43f4819',
-                role_name: ADMIN
-            },
-            {
-                id       : '1ba746f6-5df9-4c8b-a078-3c0453d1122b',
-                role_name: AGEN
-            },
-            {
-                id       : '1ba746f6-5df9-4c8b-a078-3c0453d1122c',
-                role_name: RESELLER
-            }
-        ]
+        const roles = [ADMIN, AGEN, RESELLER]
         const users = [
             {
                 id        : '88630295-d95e-4f71-8096-90a4024521eb',
