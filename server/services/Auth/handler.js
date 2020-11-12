@@ -1,9 +1,10 @@
 require('dotenv').config()
 
-const db = require('../../db')
-const bcrypt = require('bcrypt')
-const { v4 } = require('uuid')
-const jwt = require('jsonwebtoken')
+const db       = require('../../db')
+const bcrypt   = require('bcrypt')
+const { v4 }   = require('uuid')
+const jwt      = require('jsonwebtoken')
+const response = require('../../constants/response')
 
 const SALT = process.env.SALT_ROUND
 const SECRET = process.env.SECRET
@@ -62,24 +63,27 @@ module.exports = {
             const isPasswordMatch = await bcrypt.compare(password, user.password)
             if (isPasswordMatch) {
                 const profile = await db('users as u')
-                    .select('p.nama', 'u.email', 'u.id', 'r.role_name')
+                    .select('p.nama', 'u.email', 'u.id', 'r.role_name', 'u.activated')
                     .join('roles as r', 'r.id', '=', 'u.role_id')
                     .join('profiles as p', 'p.user_id', '=', 'u.id')
                     .where('u.username', id)
                     .orWhere('u.email', id)
                     .first()
 
+                if(!profile.activated){
+                    return response.accountNotActive(res)
+                }
                 const tokenPayload = {
                     user_id: user.id,
                     role_name: profile.role_name
                 }
                 const token = await jwt.sign(tokenPayload, SECRET)
 
-                const response = {
+                const auth = {
                     token,
                     profile
                 }
-                res.status(200).json(response)
+                res.status(200).json(auth)
             } else {
                 return res.status(401).json({
                     error: 'Password anda salah'

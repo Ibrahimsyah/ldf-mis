@@ -2,9 +2,9 @@ const { v4 } = require('uuid')
 const bcrypt = require('bcrypt')
 
 const db = require('../../db')
-const status = require('../../constants/activation')
-const { ADMIN, AGEN, RESELLER } = require('../../constants/roles')
+const { AGEN, RESELLER } = require('../../constants/roles')
 const response = require('../../constants/response')
+const activation = require('../../constants/activation')
 
 module.exports = {
     getUsers: async (req, res) => {
@@ -29,7 +29,7 @@ module.exports = {
                     .whereRaw(`u.id = '${user_id}'`)
                     .first()
         } else {
-            const { page = 1, limit = 10, keyword = '' } = req.query
+            const { page = 1, limit = 10, keyword = '', sortby = 'u.id', mode = 'desc' } = req.query
             const regionTotal = (await db('regions as r')).length
             const meta = {
                 total: regionTotal,
@@ -37,12 +37,14 @@ module.exports = {
                 pageSize: Number(limit)
             }
             const regions = await db('users as u')
-                .select('u.id', 'u.username', 'u.email', 'p.nama', 'p.alamat', 'p.pekerjaan', 'p2.nama as created_by')
+                .select('u.id', 'u.username', 'u.email', 'p.nama', 'p.alamat', 'p.pekerjaan', 'p2.nama as created_by', 'u.created_at', 'r.role_name', db.raw(`CASE when u.activated = 1 then '${activation.AKTIF.status}' else '${activation.PENDING.status}' END as status`))
                 .join('profiles as p', 'u.id', '=', 'p.user_id')
                 .join('users as u2', 'u2.id', '=', 'u.created_by')
+                .join('roles as r', 'r.id', '=', 'u.role_id')
                 .join('profiles as p2', 'u2.id', '=', 'p2.user_id')
                 .offset(limit * (page - 1))
                 .whereRaw(`lower(p.nama) like '%${keyword.toLowerCase()}%'`)
+                .orderBy(sortby, mode)
                 .limit(limit)
             data = { meta: meta, data: regions }
         }
@@ -51,10 +53,13 @@ module.exports = {
     deleteUser: async (req, res, next) => {
         const { user_id } = req.query
         try {
+            await db('reseller').where({reseller_id: user_id}).del()
+            await db('agen').where({agen_id: user_id}).del()
             await db('profiles').where({ user_id: user_id }).del()
             await db('users').where({ id: user_id }).del()
             return response.success(res)
-        } catch {
+        } catch(err){
+            console.log(err)
             next()
         }
     },
