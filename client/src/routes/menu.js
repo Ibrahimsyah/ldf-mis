@@ -41,13 +41,20 @@ const menu = [{
     path       : '/region',
     description: 'Kelola Region',
     icon       : EnvironmentOutlined
-}
+},
+{
+    id         : 6,
+    name       : 'Reseller',
+    path       : '/user',
+    description: 'Kelola Reseller',
+    icon       : TeamOutlined
+},
 
 ]
 
 const userMenu = {
     [ADMIN]   : [1, 2, 3, 4, 5],
-    [AGEN]    : [1, 3, 4],
+    [AGEN]    : [1, 3, 6],
     [RESELLER]: [1, 3]
 }
 

@@ -25,6 +25,7 @@ module.exports = {
                     table.timestamp('created_at').defaultTo(db.raw('CURRENT_TIMESTAMP'))
                     table.string('created_by', 100)
                     table.boolean('activated')
+                    table.boolean('is_deleted').defaultTo(0)
                 })
                 .createTable('profiles', table => {
                     table.string('user_id', 100).references('id').inTable('users').primary()

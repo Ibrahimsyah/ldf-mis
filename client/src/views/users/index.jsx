@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import Content from "../../components/Content";
 import config from "./index.config";
 import api from "../../providers/api";
+import { AGEN } from "../../contants/UserRoles";
 
 const { confirm } = Modal;
 
@@ -12,7 +13,6 @@ const App =  (props) => {
   const { table, initState } = config;
   const [state, setState] = useState(initState);
 
-  console.log(props)
   const handleTableChange = (pagination, _, sorter) => {
     setState((state) => ({ ...state, pagination: pagination, sorter: sorter }));
   };
@@ -50,7 +50,24 @@ const App =  (props) => {
   };
 
   const onApprove = (row) => {
-    message.success("Approved!");
+    confirm({
+      title: "Anda yakin akan mengaktifkan User ini?",
+      content: "Aksi ini tidak dapat dikembalikan",
+      onOk() {
+        return new Promise(async (resolve, reject) => {
+          await api.put(`users/confirmation?user_id=${row.id}`);
+          resolve();
+          refresh(
+            state.pagination.current,
+            state.pagination.pageSize,
+            state.searchQuery,
+            state.sorter
+          );
+        });
+      },
+      onCancel() {},
+    });
+    setState((state) => ({ ...state }));
   };
   const refresh = async (page, limit, query, sorter) => {
     setState((state) => ({ ...state, loading: true }));
@@ -82,7 +99,7 @@ const App =  (props) => {
   }, [state.pagination.current, state.searchQuery, state.sorter]);
 
   return (
-    <Content title="User">
+    <Content title={profile.role_name === AGEN ? "Reseller" : "User"}>
       <Row gutter={24} style={{ marginBottom: 16 }}>
         <Col xs={24} md={16}>
           <Input.Search
@@ -96,7 +113,7 @@ const App =  (props) => {
             style={{ width: "100%" }}
             onClick={() => history.push("/user/add")}
           >
-            Tambah User
+            Tambah {profile.role_name === AGEN ? "Reseller" : "User"}
           </Button>
         </Col>
       </Row>

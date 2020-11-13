@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button } from 'antd'
 import { EditFilled, CheckOutlined, CloseOutlined } from '@ant-design/icons'
-import { ADMIN } from '../../contants/UserRoles'
+import { ADMIN, AGEN } from '../../contants/UserRoles'
 
 export default {
     initState: {
@@ -21,39 +21,41 @@ export default {
     table: (onDelete, onEdit, onApprove, role_name) => {
         const columns = [
             {
-                title: 'Nama User',
+                title: role_name === ADMIN ? "Nama User" : "Nama Reseller",
                 dataIndex: 'nama',
-                sorter: true
-            },
-            {
-                title: 'Role User',
-                dataIndex: 'role_name',
-                sorter: true
-            },
-            {
-                title: 'Didaftarkan Oleh',
-                dataIndex: 'created_by',
-            },
-            {
-                title: 'Status',
-                dataIndex: 'status',
                 sorter: true
             },
         ]
         if (role_name === ADMIN) {
+            columns.push(
+                {
+                    title: 'Role User',
+                    dataIndex: 'role_name',
+                    sorter: true
+                },
+                {
+                    title: 'Didaftarkan Oleh',
+                    dataIndex: 'created_by',
+                },
+                {
+                    title: 'Aksi',
+                    align: 'center',
+                    width: '10%',
+                    render: row => {
+                        const pending = row.status !== 'Aktif'
+                        return (
+                            <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                                {pending && <Button type="primary" danger onClick={() => onDelete(row)}><CloseOutlined /></Button>}
+                                <Button type="primary" onClick={() => pending ? onApprove(row) : onEdit(row)}>{pending ? <CheckOutlined /> : <EditFilled style={{ color: '#fff' }} />}</Button>
+                            </div>
+                        )
+                    }
+                })
+        }else if(role_name === AGEN){
             columns.push({
-                title: 'Aksi',
-                align: 'center',
-                width: '10%',
-                render: row => {
-                    const pending = row.status !== 'Aktif'
-                    return (
-                        <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-                            {pending && <Button type="primary" onClick={() => onDelete(row)}><CloseOutlined /></Button>}
-                            <Button type="primary" danger={pending} onClick={() => pending ? onApprove(row) : onEdit(row)}>{pending ? <CheckOutlined /> : <EditFilled style={{ color: '#fff' }} />}</Button>
-                        </div>
-                    )
-                }
+                title: 'Status',
+                dataIndex: 'status',
+                sorter: true
             })
         }
         return {

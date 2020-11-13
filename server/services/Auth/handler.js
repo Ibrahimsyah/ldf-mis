@@ -56,8 +56,10 @@ module.exports = {
     loginUser: async (req, res) => {
         const { id, password } = req.body
         const user = await db('users')
+            .whereRaw(`(username = '${id}' OR email = '${id}') AND is_deleted = 0`)
             .where('username', id)
             .orWhere('email', id)
+            .andWhere('is_deleted', 0)
             .first()
         if (user) {
             const isPasswordMatch = await bcrypt.compare(password, user.password)

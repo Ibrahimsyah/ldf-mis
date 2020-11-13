@@ -16,6 +16,8 @@ module.exports = {
             from agen a
             inner join regions r on r.id  = a.region_id  
             inner join profiles p on p.user_id = a.agen_id 
+            inner join users u on u.id = a.agen_id
+            where u.is_deleted = 0
             group by agen_id 
             `)
         }
@@ -26,7 +28,7 @@ module.exports = {
                     .join('profiles as p', 'u.id', '=', 'p.user_id')
                     .join('users as u2', 'u2.id', '=', 'u.created_by')
                     .join('profiles as p2', 'u2.id', '=', 'p2.user_id')
-                    .whereRaw(`u.id = '${user_id}'`)
+                    .whereRaw(`u.id = '${user_id}' and u.is_deleted = 0`)
                     .first()
         } else {
             const { page = 1, limit = 10, keyword = '', sortby = 'u.id', mode = 'desc' } = req.query
@@ -36,29 +38,40 @@ module.exports = {
                 current: Number(page),
                 pageSize: Number(limit)
             }
-            const regions = await db('users as u')
-                .select('u.id', 'u.username', 'u.email', 'p.nama', 'p.alamat', 'p.pekerjaan', 'p2.nama as created_by', 'u.created_at', 'r.role_name', db.raw(`CASE when u.activated = 1 then '${activation.AKTIF.status}' else '${activation.PENDING.status}' END as status`))
-                .join('profiles as p', 'u.id', '=', 'p.user_id')
-                .join('users as u2', 'u2.id', '=', 'u.created_by')
-                .join('roles as r', 'r.id', '=', 'u.role_id')
-                .join('profiles as p2', 'u2.id', '=', 'p2.user_id')
-                .offset(limit * (page - 1))
-                .whereRaw(`lower(p.nama) like '%${keyword.toLowerCase()}%'`)
-                .orderBy(sortby, mode)
-                .limit(limit)
-            data = { meta: meta, data: regions }
+            let result
+            if (req.role_name === AGEN.role_name) {
+                result = await db('users as u')
+                    .select('u.id', 'u.username', 'u.email', 'p.nama', 'p.alamat', 'p.pekerjaan', 'u.created_at', db.raw(`CASE when u.activated = 1 then '${activation.AKTIF.status}' else '${activation.PENDING.status}' END as status`))
+                    .join('profiles as p', 'u.id', '=', 'p.user_id')
+                    .join('reseller as res', 'res.reseller_id', '=', 'u.id')
+                    .offset(limit * (page - 1))
+                    .whereRaw(`lower(p.nama) like '%${keyword.toLowerCase()}%' and u.is_deleted = 0 and res.agen_id ='${req.user_id}'`)
+                    .orderBy(sortby, mode)
+                    .limit(limit)
+            } else {
+                result = await db('users as u')
+                    .select('u.id', 'u.username', 'u.email', 'p.nama', 'p.alamat', 'p.pekerjaan', 'p2.nama as created_by', 'u.created_at', 'r.role_name', db.raw(`CASE when u.activated = 1 then '${activation.AKTIF.status}' else '${activation.PENDING.status}' END as status`))
+                    .join('profiles as p', 'u.id', '=', 'p.user_id')
+                    .join('users as u2', 'u2.id', '=', 'u.created_by')
+                    .join('roles as r', 'r.id', '=', 'u.role_id')
+                    .join('profiles as p2', 'u2.id', '=', 'p2.user_id')
+                    .offset(limit * (page - 1))
+                    .whereRaw(`lower(p.nama) like '%${keyword.toLowerCase()}%' and u.is_deleted = 0`)
+                    .orderBy(sortby, mode)
+                    .limit(limit)
+            }
+            data = { meta: meta, data: result }
         }
         res.json(data)
     },
     deleteUser: async (req, res, next) => {
         const { user_id } = req.query
         try {
-            await db('reseller').where({reseller_id: user_id}).del()
-            await db('agen').where({agen_id: user_id}).del()
-            await db('profiles').where({ user_id: user_id }).del()
-            await db('users').where({ id: user_id }).del()
+            await db('users').where({ id: user_id }).update({
+                is_deleted: 1
+            })
             return response.success(res)
-        } catch(err){
+        } catch (err) {
             console.log(err)
             next()
         }
@@ -100,6 +113,7 @@ module.exports = {
                 email: email,
                 role_id: role_id,
                 created_by: req.user_id,
+                is_deleted: 0,
                 activated: req.role_name === AGEN.role_name ? false : true,
                 password: hashedPassword
             }
@@ -133,5 +147,13 @@ module.exports = {
             console.log(err)
             next()
         }
+    },
+
+    confirmUser: async (req, res) => {
+        const { user_id } = req.query
+        await db('users').where({id: user_id}).update({
+            activated: 1
+        })
+        return response.success(res)
     }
 }
