@@ -39,7 +39,7 @@ export default {
                     sorter: true
                 },
                 {
-                    title: 'Didaftarkan Oleh',
+                    title: 'Di daftarkan Oleh',
                     dataIndex: 'created_by',
                 },
                 {

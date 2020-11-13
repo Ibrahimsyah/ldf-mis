@@ -75,7 +75,7 @@ const App = (props) => {
   };
 
   const onEdit = (row) => {
-    history.push(`/product/edit/${row.product_id}`);
+    history.push(`/user/edit/${row.id}`);
   };
 
   const onApprove = (row) => {
@@ -86,6 +86,7 @@ const App = (props) => {
         return new Promise(async (resolve, reject) => {
           await api.put(`users/confirmation?user_id=${row.id}`);
           resolve();
+          message.success('User berhasil di aktifkan')
           refresh(
             state.pagination.current,
             state.pagination.pageSize,
