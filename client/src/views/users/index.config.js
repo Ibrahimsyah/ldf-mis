@@ -6,6 +6,11 @@ import { ADMIN, AGEN } from '../../contants/UserRoles'
 export default {
     initState: {
         data: [],
+        userSummary: {
+            agenCount: 0,
+            resellerCount: 0,
+            regionCount: 0
+        },
         pagination: {
             pageSize: 10,
             current: 1,

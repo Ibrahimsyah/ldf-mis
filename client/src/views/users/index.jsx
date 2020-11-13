@@ -1,15 +1,44 @@
 import React, { useState, useEffect } from "react";
 import { Table, Input, Row, Col, Button, Modal, message } from "antd";
-import {connect} from 'react-redux'
+import { connect } from "react-redux";
 import Content from "../../components/Content";
 import config from "./index.config";
 import api from "../../providers/api";
-import { AGEN } from "../../contants/UserRoles";
-
+import { AGEN, ADMIN } from "../../contants/UserRoles";
+import "./index.scss";
 const { confirm } = Modal;
 
-const App =  (props) => {
-  const {history, auth: {profile}} = props
+const UserStats = (props) => {
+  const { agenCount, resellerCount, regionCount } = props;
+
+  return (
+    <Row gutter={24} style={{ marginBottom: 16 }}>
+      <Col md={8} sm={24}>
+        <div className="stat-card">
+          <h1>{agenCount}</h1>
+          <h3>Total Agen</h3>
+        </div>
+      </Col>
+      <Col md={8} sm={24}>
+        <div className="stat-card">
+          <h1>{resellerCount}</h1>
+          <h3>Total Reseller</h3>
+        </div>
+      </Col>
+      <Col md={8} sm={24}>
+        <div className="stat-card">
+          <h1>{regionCount}</h1>
+          <h3>Total Daerah</h3>
+        </div>
+      </Col>
+    </Row>
+  );
+};
+const App = (props) => {
+  const {
+    history,
+    auth: { profile },
+  } = props;
   const { table, initState } = config;
   const [state, setState] = useState(initState);
 
@@ -89,6 +118,10 @@ const App =  (props) => {
     }));
   };
 
+  const populateSummary = async () => {
+    const res = await api.get("users/stat");
+    setState((state) => ({ ...state, userSummary: res }));
+  };
   useEffect(() => {
     refresh(
       state.pagination.current,
@@ -98,8 +131,12 @@ const App =  (props) => {
     );
   }, [state.pagination.current, state.searchQuery, state.sorter]);
 
+  useEffect(() => {
+    populateSummary();
+  }, []);
   return (
     <Content title={profile.role_name === AGEN ? "Reseller" : "User"}>
+      {profile.role_name === ADMIN && <UserStats {...state.userSummary} />}
       <Row gutter={24} style={{ marginBottom: 16 }}>
         <Col xs={24} md={16}>
           <Input.Search
@@ -127,10 +164,10 @@ const App =  (props) => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    auth : state.auth
-  }
-}
+    auth: state.auth,
+  };
+};
 
-export default connect(mapStateToProps)(App)
+export default connect(mapStateToProps)(App);

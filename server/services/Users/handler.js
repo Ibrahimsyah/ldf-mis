@@ -151,9 +151,26 @@ module.exports = {
 
     confirmUser: async (req, res) => {
         const { user_id } = req.query
-        await db('users').where({id: user_id}).update({
+        await db('users').where({ id: user_id }).update({
             activated: 1
         })
         return response.success(res)
+    },
+
+    getUserStat: async (req, res) => {
+        const agents = await db('users')
+            .join('agen', 'agen.agen_id', '=', 'users.id')
+            .whereRaw('users.is_deleted = 0 AND users.activated = 1')
+
+        const resellers = await db('users')
+            .join('reseller', 'reseller.reseller_id', '=', 'users.id')
+            .whereRaw('users.is_deleted = 0 AND users.activated = 1')
+
+        const regions = await db('regions')
+        res.json({
+            agenCount    : agents.length,
+            resellerCount: resellers.length,
+            regionCount  : regions.length
+        })
     }
 }
