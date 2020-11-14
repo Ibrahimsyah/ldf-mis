@@ -1,3 +1,6 @@
+import React from 'react'
+import { Button } from 'antd'
+import { DeleteFilled } from '@ant-design/icons'
 export const parsePrice = (price) => "Rp." + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 export default {
     state: {
@@ -24,15 +27,15 @@ export default {
                 message: 'Tanggal tidak boleh kosong'
             }]
         },
-        tambah_barang:{
+        tambah_barang: {
             name: 'product_id',
             label: 'Tambah Barang'
         },
-        jumlah_barang:{
+        jumlah_barang: {
             name: 'quantity',
             label: 'Jumlah'
         },
-        productList: () => {
+        productList: (onDelete) => {
             return {
                 rowKey: 'product_id',
                 columns: [
@@ -53,6 +56,12 @@ export default {
                     {
                         title: 'Total',
                         render: row => parsePrice(row.quantity * row.price)
+                    },
+                    {
+                        title: 'Aksi',
+                        render: (row) => {
+                            return <Button danger onClick={() => onDelete(row)}><DeleteFilled /></Button>
+                        }
                     }
                 ],
             }

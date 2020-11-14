@@ -91,6 +91,10 @@ const App = (props) => {
     });
   };
 
+  const handleDeleteItem = row => {
+    const newCart = cart.filter(item => item.product_id !== row.product_id)
+    setCart(newCart)
+  }
   const calculateSummary = () => {
     const totalPrices =
       cart.length > 0
@@ -145,7 +149,7 @@ const App = (props) => {
           <h3>Daftar Barang Sementara</h3>
           <Table
             dataSource={cart}
-            {...schema.productList(profile.role_name)}
+            {...schema.productList(handleDeleteItem)}
             pagination={false}
           />
           <Form.Item {...layout.formFooter}>
