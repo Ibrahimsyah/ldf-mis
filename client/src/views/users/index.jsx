@@ -13,19 +13,19 @@ const UserStats = (props) => {
 
   return (
     <Row gutter={24} style={{ marginBottom: 16 }}>
-      <Col md={8} sm={24}>
+      <Col lg={8} sm={12} xs={24}>
         <div className="stat-card">
           <h1>{agenCount}</h1>
           <h3>Total Agen</h3>
         </div>
       </Col>
-      <Col md={8} sm={24}>
+      <Col lg={8} sm={12} xs={24}>
         <div className="stat-card">
           <h1>{resellerCount}</h1>
           <h3>Total Reseller</h3>
         </div>
       </Col>
-      <Col md={8} sm={24}>
+      <Col lg={8} sm={24} xs={24}>
         <div className="stat-card">
           <h1>{regionCount}</h1>
           <h3>Total Daerah</h3>
@@ -109,7 +109,6 @@ const App = (props) => {
         sorter.order === "ascend" ? "ASC" : "DESC"
       }`;
     if (query) url += `&keyword=${query}`;
-    console.log(url);
     const { meta, data } = await api.get(url);
     setState((state) => ({
       ...state,
@@ -138,7 +137,7 @@ const App = (props) => {
   return (
     <Content title={profile.role_name === AGEN ? "Reseller" : "User"}>
       {profile.role_name === ADMIN && <UserStats {...state.userSummary} />}
-      <Row gutter={24} style={{ marginBottom: 16 }}>
+      <Row gutter={[24,24]} style={{ marginBottom: 16 }}>
         <Col xs={24} md={16}>
           <Input.Search
             placeholder="Cari berdasarkan nama"

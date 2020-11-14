@@ -66,7 +66,7 @@ export default (props) => {
 
   return (
     <Content title="Produk">
-      <Row gutter={24} style={{ marginBottom: 16 }}>
+      <Row gutter={[24,24]} style={{ marginBottom: 16 }}>
         <Col xs={24} md={16}>
           <Input.Search
             placeholder="Cari berdasarkan nama"

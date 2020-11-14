@@ -1,9 +1,14 @@
+export const parsePrice = (price) => "Rp." + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 export default {
     state: {
+        loading: {
+            content: false,
+            submit: false
+        }
     },
     layout: {
         formBody: {
-            labelCol  : { span: 4 },
+            labelCol: { span: 4 },
             wrapperCol: { span: 20 },
         },
         formFooter: {
@@ -11,39 +16,46 @@ export default {
         }
     },
     schema: {
-        product_name: {
-            name : 'product_name',
-            label: 'Nama Produk',
-            rules: [
-                {
-                    required: true,
-                    message : 'Nama Produk tidak boleh kosong'
-                }
-            ]
-        },
-        hq_price: {
-            name : 'hq_price',
-            label: 'Harga Pusat',
+        sales_date: {
+            name: 'sales_date',
+            label: 'Tanggal Penjualan',
             rules: [{
                 required: true,
-                message : 'Harga tidak boleh kosong'
+                message: 'Tanggal tidak boleh kosong'
             }]
         },
-        agen_price: {
-            name : 'agen_price',
-            label: 'Harga Agen',
-            rules: [{
-                required: true,
-                message : 'Harga tidak boleh kosong'
-            }]
+        tambah_barang:{
+            name: 'product_id',
+            label: 'Tambah Barang'
         },
-        reseller_price: {
-            name : 'reseller_price',
-            label: 'Harga Reseller',
-            rules: [{
-                required: true,
-                message : 'Harga tidak boleh kosong'
-            }]
+        jumlah_barang:{
+            name: 'quantity',
+            label: 'Jumlah'
         },
+        productList: () => {
+            return {
+                rowKey: 'product_id',
+                columns: [
+                    {
+                        title: 'Nama Produk',
+                        dataIndex: 'product_name',
+                        key: 'product_id',
+                    },
+                    {
+                        title: 'Harga',
+                        dataIndex: 'price',
+                        render: row => parsePrice(row)
+                    },
+                    {
+                        title: 'Jumlah',
+                        dataIndex: 'quantity',
+                    },
+                    {
+                        title: 'Total',
+                        render: row => parsePrice(row.quantity * row.price)
+                    }
+                ],
+            }
+        }
     }
 }
