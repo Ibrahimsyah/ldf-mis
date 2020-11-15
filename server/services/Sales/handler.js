@@ -17,14 +17,12 @@ module.exports = {
                 case RESELLER.role_name:
                     priceID = 'reseller_price'
             }
-            let builder = db('penjualan as p')
+            let data = await db('penjualan as p')
+                .select('p.product_id', 'pr.product_name', 'p.jumlah', `h.${priceID} as harga_satuan`, 'p.waktu', db.raw(`p.jumlah * h.${priceID} as total`))
                 .join('prices as h', 'p.product_id', '=', 'h.product_id')
                 .join('products as pr', 'pr.id', '=', 'p.product_id')
-                .where('p.seller_id', req.user_id)
-
-            const data = await builder
-                .select('p.product_id', 'pr.product_name', 'p.jumlah', `h.${priceID} as harga_satuan`, 'p.waktu', db.raw(`p.jumlah * h.${priceID} as total`))
-                .whereRaw(`cast(p.waktu as date) between curdate() - ${range} and curdate()`)
+                .whereRaw(`p.seller_id = '${req.user_id}' and (cast(p.waktu as date) <= CURDATE() and cast(p.waktu as date) > CURDATE() - ${range})`)
+                .orderBy('p.waktu', "desc")
 
             res.json(data).status(200)
         } catch (err) {
@@ -52,18 +50,18 @@ module.exports = {
                 .where('p.seller_id', req.user_id)
 
             const todayIncome = await builder.clone()
-                .whereRaw('cast(p.waktu as date) between curdate() - 1 and curdate()')
+                .whereRaw('cast(p.waktu as date) <= CURDATE() and cast(p.waktu as date) > CURDATE() - 1')
 
             const last7Income = await builder.clone()
-                .whereRaw('cast(p.waktu as date) between curdate() - 7 and curdate()')
+                .whereRaw('cast(p.waktu as date) <= CURDATE() and cast(p.waktu as date) > CURDATE() - 7')
 
             const last30Income = await builder.clone()
-                .whereRaw('cast(p.waktu as date) between curdate() - 30 and curdate()')
+                .whereRaw('cast(p.waktu as date) <= CURDATE() and cast(p.waktu as date) > CURDATE() - 30')
 
             const data = {
-                todayIncome: todayIncome[0].total,
-                last7Income: last7Income[0].total,
-                last30Income: last30Income[0].total
+                todayIncome: todayIncome[0].total || 0,
+                last7Income: last7Income[0].total || 0,
+                last30Income: last30Income[0].total || 0
             }
             res.status(200).json(data)
         } catch (err) {
