@@ -25,6 +25,10 @@
 
 .menu-container {
   background: $main-color;
+  overflow: auto;
+  height: 100vh;
+  position: fixed;
+  left: 0;
   .title {
     color: white;
     font-weight: bold;
@@ -46,9 +50,16 @@
     }
   }
 }
+
+.site-layout{
+  margin-left: 200px;
+}
 @media (max-width: 768px) {
   .menu-container {
     display: none;
+  }
+  .site-layout{
+    margin-left: 0px;
   }
 }
 
