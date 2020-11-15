@@ -1,9 +1,6 @@
-import React from 'react'
-import { Button } from 'antd'
 import moment from 'moment'
-import { DeleteFilled, EditFilled } from '@ant-design/icons'
 
-const parsePrice = (price) => "Rp." + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+export const parsePrice = (price) => "Rp." + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 export default {
     initState: {
         salesData: [],
@@ -15,7 +12,7 @@ export default {
         loading: false,
         range: "1"
     },
-    table: (onDelete, onEdit) => {
+    table: () => {
         return {
             rowKey: row => row.product_id + row.waktu,
             columns: [
@@ -26,21 +23,25 @@ export default {
                 {
                     title: 'Harga Satuan',
                     dataIndex: 'harga_satuan',
+                    align:'right',
                     render: row => parsePrice(row)
                 },
                 {
                     title: 'Jumlah',
+                    align:'right',
                     dataIndex: 'jumlah'
                 },
                 {
                     title: 'Total',
                     dataIndex: 'total',
+                    align:'right',
                     render: row => parsePrice(row)
                 },
                 {
                     title: 'Waktu Transaksi',
                     dataIndex: 'waktu',
-                    render: row => moment(row).format('DD-MMMM-YYYY')
+                    align:'center',
+                    render: row => moment(row).format('dddd, DD MMMM YYYY, hh:mm')
                 }
             ],
         }
