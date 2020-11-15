@@ -1,61 +1,46 @@
 import React from 'react'
 import { Button } from 'antd'
+import moment from 'moment'
 import { DeleteFilled, EditFilled } from '@ant-design/icons'
 
 const parsePrice = (price) => "Rp." + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 export default {
     initState: {
-        data: [
-            {
-                product_id: 1,
-                product_name: 'Sakanato 1L',
-                admin_price: 10000,
-                agen_price: 20000,
-                reseller_price: 30000
-            },
-            {
-                product_id: 2,
-                product_name: 'Sulfoks 1L',
-                admin_price: 20000,
-                agen_price: 30000,
-                reseller_price: 40000
-            }
-        ]
+        salesData: [],
+        summary: {
+            todayIncome: 0,
+            last7Income: 0,
+            last30Income: 0,
+        },
+        loading: false,
+        range: "1"
     },
     table: (onDelete, onEdit) => {
         return {
-            rowKey: 'product_id',
+            rowKey: row => row.product_id + row.waktu,
             columns: [
                 {
                     title: 'Nama Produk',
                     dataIndex: 'product_name',
-                    key: 'product_id',
                 },
                 {
-                    title: 'Harga Pusat',
-                    dataIndex: 'admin_price',
+                    title: 'Harga Satuan',
+                    dataIndex: 'harga_satuan',
                     render: row => parsePrice(row)
                 },
                 {
-                    title: 'Harga Agen',
-                    dataIndex: 'agen_price',
+                    title: 'Jumlah',
+                    dataIndex: 'jumlah'
+                },
+                {
+                    title: 'Total',
+                    dataIndex: 'total',
                     render: row => parsePrice(row)
                 },
                 {
-                    title: 'Harga Reseller',
-                    dataIndex: 'reseller_price',
-                    render: row => parsePrice(row)
-                },
-                {
-                    title: 'Aksi',
-                    align: 'center',
-                    width: '10%',
-                    render: row => (
-                        <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-                            <Button type="primary" onClick={() => onDelete(row)}><DeleteFilled style={{ color: '#fff' }} /></Button>
-                            <Button type="primary" onClick={() => onEdit(row)}><EditFilled style={{ color: '#fff' }} /></Button>
-                        </div>
-                    )
+                    title: 'Waktu Transaksi',
+                    dataIndex: 'waktu',
+                    render: row => moment(row).format('DD-MMMM-YYYY')
                 }
             ],
         }

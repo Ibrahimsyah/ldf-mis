@@ -49,6 +49,7 @@ module.exports = {
                     table.string('product_id', 100).references('id').inTable('products')
                     table.timestamp('waktu')
                     table.integer('jumlah').defaultTo(0)
+                    table.primary(['seller_id', 'product_id', 'waktu'])
                 })
                 .createTable('pembelian', table => {
                     table.string('seller_id', 100).references('id').inTable('users')

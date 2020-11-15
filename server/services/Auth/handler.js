@@ -1,9 +1,9 @@
 require('dotenv').config()
 
-const db       = require('../../db')
-const bcrypt   = require('bcrypt')
-const { v4 }   = require('uuid')
-const jwt      = require('jsonwebtoken')
+const db = require('../../db')
+const bcrypt = require('bcrypt')
+const { v4 } = require('uuid')
+const jwt = require('jsonwebtoken')
 const response = require('../../constants/response')
 
 const SALT = process.env.SALT_ROUND
@@ -54,52 +54,56 @@ module.exports = {
     },
 
     loginUser: async (req, res) => {
-        const { id, password } = req.body
-        const user = await db('users')
-            .whereRaw(`(username = '${id}' OR email = '${id}') AND is_deleted = 0`)
-            .where('username', id)
-            .orWhere('email', id)
-            .andWhere('is_deleted', 0)
-            .first()
-        if (user) {
-            const isPasswordMatch = await bcrypt.compare(password, user.password)
-            if (isPasswordMatch) {
-                const profile = await db('users as u')
-                    .select('p.nama', 'u.email', 'u.id', 'r.role_name', 'u.activated')
-                    .join('roles as r', 'r.id', '=', 'u.role_id')
-                    .join('profiles as p', 'p.user_id', '=', 'u.id')
-                    .where('u.username', id)
-                    .orWhere('u.email', id)
-                    .first()
+        try {
+            const { id, password } = req.body
+            const user = await db('users')
+                .whereRaw(`(username = '${id}' OR email = '${id}') AND is_deleted = 0`)
+                .where('username', id)
+                .orWhere('email', id)
+                .andWhere('is_deleted', 0)
+                .first()
+            if (user) {
+                const isPasswordMatch = await bcrypt.compare(password, user.password)
+                if (isPasswordMatch) {
+                    const profile = await db('users as u')
+                        .select('p.nama', 'u.email', 'u.id', 'r.role_name', 'u.activated')
+                        .join('roles as r', 'r.id', '=', 'u.role_id')
+                        .join('profiles as p', 'p.user_id', '=', 'u.id')
+                        .where('u.username', id)
+                        .orWhere('u.email', id)
+                        .first()
 
-                if(!profile.activated){
-                    return response.accountNotActive(res)
-                }
-                const tokenPayload = {
-                    user_id: user.id,
-                    role_name: profile.role_name
-                }
-                const token = await jwt.sign(tokenPayload, SECRET)
+                    if (!profile.activated) {
+                        return response.accountNotActive(res)
+                    }
+                    const tokenPayload = {
+                        user_id: user.id,
+                        role_name: profile.role_name
+                    }
+                    const token = await jwt.sign(tokenPayload, SECRET)
 
-                const auth = {
-                    token,
-                    profile
+                    const auth = {
+                        token,
+                        profile
+                    }
+                    res.status(200).json(auth)
+                } else {
+                    return res.status(401).json({
+                        error: 'Password anda salah'
+                    })
                 }
-                res.status(200).json(auth)
+                if (user.activated === 0) {
+                    return res.status(401).json({
+                        error: 'Akun anda masih dalam proses persetujuan admin'
+                    })
+                }
             } else {
                 return res.status(401).json({
-                    error: 'Password anda salah'
+                    error: 'Username/email tidak ditemukan'
                 })
             }
-            if (user.activated === 0) {
-                return res.status(401).json({
-                    error: 'Akun anda masih dalam proses persetujuan admin'
-                })
-            }
-        } else {
-            return res.status(401).json({
-                error: 'Username/email tidak ditemukan'
-            })
+        } catch (err) {
+            console.log(err)
         }
     }
 }
