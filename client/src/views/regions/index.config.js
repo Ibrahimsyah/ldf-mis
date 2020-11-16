@@ -18,7 +18,7 @@ export default {
             rowKey: 'id',
             columns: [
                 {
-                    title: 'Nama Region',
+                    title: 'Nama Wilayah',
                     dataIndex: 'region_name',
                     key: 'id',
                 },

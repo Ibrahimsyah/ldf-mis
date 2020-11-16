@@ -13,11 +13,11 @@ export default {
     schema: {
         region_name: {
             name : 'region_name',
-            label: 'Nama Region',
+            label: 'Nama Wilayah',
             rules: [
                 {
                     required: true,
-                    message : 'Nama Region tidak boleh kosong'
+                    message : 'Nama Wilayah tidak boleh kosong'
                 }
             ]
         },

@@ -13,7 +13,7 @@ export default {
     schema: {
         region_name: {
             name : 'region_name',
-            label: 'Nama Region',
+            label: 'Nama Wilayah',
             rules: [
                 {
                     required: true,

@@ -18,7 +18,7 @@ export default (props) => {
     setSubmitting(true);
     try {
       await api.put(`regions?region_id=${region_id}`, values);
-      message.success("Sukses Mengubah Produk");
+      message.success("Sukses Mengubah Informasi Wilayah");
       history.goBack();
     } catch (err) {
       message.error(err);
@@ -41,7 +41,7 @@ export default (props) => {
       });
   }, [form, region_id]);
   return (
-    <Content title="Edit Region">
+    <Content title="Edit Wilayah">
       <Spin spinning={loading}>
         <Form form={form} {...layout.formBody} onFinish={handleSubmit}>
           <Form.Item {...schema.region_name}>

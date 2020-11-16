@@ -24,17 +24,17 @@ export default {
                     key: 'product_id',
                 },
                 {
-                    title: 'Harga Pusat',
+                    title: 'Harga Jual LDF',
                     dataIndex: 'admin_price',
                     render: row => parsePrice(row)
                 },
                 {
-                    title: 'Harga Agen',
+                    title: 'Harga Jual Agen',
                     dataIndex: 'agen_price',
                     render: row => parsePrice(row)
                 },
                 {
-                    title: 'Harga Reseller',
+                    title: 'Harga Jual Reseller',
                     dataIndex: 'reseller_price',
                     render: row => parsePrice(row)
                 },

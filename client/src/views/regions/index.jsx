@@ -65,7 +65,7 @@ export default (props) => {
   }, [state.pagination.current, state.searchQuery]);
 
   return (
-    <Content title="Region">
+    <Content title="Wilayah">
       <Row gutter={[24,24]} style={{ marginBottom: 16 }}>
         <Col xs={24} md={16}>
           <Input.Search
@@ -79,7 +79,7 @@ export default (props) => {
             style={{ width: "100%" }}
             onClick={() => history.push("/region/add")}
           >
-            Tambah Produk
+            Tambah Wilayah
           </Button>
         </Col>
       </Row>

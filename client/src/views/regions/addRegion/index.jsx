@@ -26,7 +26,7 @@ export default (props) => {
   };
 
   return (
-    <Content title="Tambah Region">
+    <Content title="Tambah Wilayah">
       <Form form={form} {...layout.formBody} onFinish={handleSubmit}>
         <Form.Item {...schema.region_name}>
           <Input />

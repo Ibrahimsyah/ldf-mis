@@ -23,7 +23,7 @@ export default {
         },
         admin_price: {
             name : 'admin_price',
-            label: 'Harga Pusat',
+            label: 'Harga Jual Pusat',
             rules: [{
                 required: true,
                 message : 'Harga tidak boleh kosong'
@@ -31,7 +31,7 @@ export default {
         },
         agen_price: {
             name : 'agen_price',
-            label: 'Harga Agen',
+            label: 'Harga Jual Agen',
             rules: [{
                 required: true,
                 message : 'Harga tidak boleh kosong'
@@ -39,7 +39,7 @@ export default {
         },
         reseller_price: {
             name : 'reseller_price',
-            label: 'Harga Reseller',
+            label: 'Harga Jual Reseller',
             rules: [{
                 required: true,
                 message : 'Harga tidak boleh kosong'

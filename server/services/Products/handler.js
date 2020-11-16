@@ -12,6 +12,7 @@ module.exports = {
                 await db('products as p')
                     .select('product_id', 'product_name', 'admin_price', 'agen_price', 'reseller_price')
                     .where({ id: product_id })
+                    .andWhere({is_deleted: false})
                     .join('prices as p2', 'p2.product_id', '=', 'p.id')
                     .first()
         } else {
@@ -26,7 +27,7 @@ module.exports = {
                 .select('product_id', 'product_name', 'admin_price', 'agen_price', 'reseller_price')
                 .join('prices as p2', 'p2.product_id', '=', 'p.id')
                 .offset(limit * (page - 1))
-                .whereRaw(`lower(product_name) like '%${keyword.toLowerCase()}%'`)
+                .whereRaw(`lower(product_name) like '%${keyword.toLowerCase()}%' and is_deleted = 0`)
                 .limit(limit)
             data = { meta: meta, data: products }
         }
@@ -36,11 +37,12 @@ module.exports = {
     deleteProduct: async (req, res, next) => {
         const { product_id } = req.query
         try {
-            await db('prices').where({ product_id: product_id }).del()
-            await db('products').where({ id: product_id }).del()
+            await db('products').where({ id: product_id }).update({
+                is_deleted: true
+            })
             return response.success(res)
-        } catch {
-            next()
+        } catch (err){
+            next(err)
         }
     },
 

@@ -37,9 +37,9 @@ const menu = [{
 },
 {
     id         : 5,
-    name       : 'Region',
+    name       : 'Wilayah',
     path       : '/region',
-    description: 'Kelola Region',
+    description: 'Kelola Wilayah',
     icon       : EnvironmentOutlined
 },
 {

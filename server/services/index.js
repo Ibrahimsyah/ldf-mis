@@ -4,16 +4,20 @@ const Auth = require('./Auth')
 const Products = require('./Products')
 const Regions = require('./Regions')
 const Sales = require('./Sales')
+const Summary = require('./Summary')
 const Users = require('./Users')
 const migrations = require('../db/migrations')
 const seeder = require('../db/seeder')
 
-const notFound = (req, res) => {
-    return res.status(404).send('Layanan tidak Ditemukan')
+const notFound = (req, res, next) => {
+    res.status(404)
+    const err = new Error('Layanan tidak ditemukan')
+    next(err)
 }
-const error = (err, req, res) => {
-    return res.status(500).json({
-        error: err
+const error = (error, req, res, next) => {
+    const message = error.message || "Ada Masalah Pada Server, Hubungi Administrator"
+    res.status(res.statusCode || 500).json({
+        error: message
     })
 }
 
@@ -23,6 +27,7 @@ router.use('/products', Products)
 router.use('/regions', Regions)
 router.use('/sales', Sales)
 router.use('/users', Users)
+router.use('/summary', Summary)
 router.use('/migration/up', migrations.up)
 router.use('/migration/down', migrations.down)
 router.use('/seed', seeder.seed)
