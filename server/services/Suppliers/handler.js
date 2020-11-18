@@ -15,7 +15,7 @@ module.exports = {
                     .andWhere('id', supplier_id)
                     .first()
             } else {
-                const { page = 1, limit = 10, keyword = '' } = req.query
+                const { page = 1, limit = 1000, keyword = '' } = req.query
                 const builder = db('suppliers').where('is_deleted', 0)
                 const supplierTotal = (await builder.clone()).length
                 const meta = {

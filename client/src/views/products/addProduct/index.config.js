@@ -21,6 +21,10 @@ export default {
                 }
             ]
         },
+        buy_price: {
+            name : 'buy_price',
+            label: 'Harga Beli',
+        },
         admin_price: {
             name : 'admin_price',
             label: 'Harga Jual Pusat',

@@ -10,9 +10,9 @@ module.exports = {
         if (product_id) {
             data =
                 await db('products as p')
-                    .select('product_id', 'product_name', 'admin_price', 'agen_price', 'reseller_price')
+                    .select('product_id', 'product_name', 'supplier_id', 'buy_price', 'admin_price', 'agen_price', 'reseller_price')
                     .where({ id: product_id })
-                    .andWhere({is_deleted: false})
+                    .andWhere({ is_deleted: false })
                     .join('prices as p2', 'p2.product_id', '=', 'p.id')
                     .first()
         } else {
@@ -24,7 +24,7 @@ module.exports = {
                 pageSize: Number(limit)
             }
             const products = await db('products as p')
-                .select('product_id', 'product_name', 'admin_price', 'agen_price', 'reseller_price')
+                .select('product_id', 'product_name', 'buy_price', 'admin_price', 'agen_price', 'reseller_price')
                 .join('prices as p2', 'p2.product_id', '=', 'p.id')
                 .whereRaw(`lower(product_name) like '%${keyword.toLowerCase()}%' and is_deleted = 0`)
                 .offset(limit * (page - 1))
@@ -41,33 +41,39 @@ module.exports = {
                 is_deleted: true
             })
             return response.success(res)
-        } catch (err){
+        } catch (err) {
             next(err)
         }
     },
 
     editProduct: async (req, res, next) => {
         const { product_id } = req.query
-        const { product_name, admin_price, agen_price, reseller_price } = req.body
+        const { product_name, buy_price, supplier_id, admin_price, agen_price, reseller_price } = req.body
         try {
-            await db('prices').where({ product_id: product_id }).update({ admin_price, agen_price, reseller_price })
-            await db('products').where({ id: product_id }).update({ product_name })
+            console.log(req.body)
+            await db('prices').where({ product_id: product_id }).update({ buy_price, admin_price, agen_price, reseller_price })
+            await db('products').where({ id: product_id }).update({
+                supplier_id: supplier_id || knex.raw('DEFAULT'),
+                product_name
+            })
             return response.success(res)
-        } catch {
-            next()
+        } catch (err) {
+            next(err)
         }
     },
 
     addProduct: async (req, res, next) => {
-        const { product_name, admin_price, agen_price, reseller_price } = req.body
+        const { product_name, supplier_id, buy_price = 0, admin_price, agen_price, reseller_price } = req.body
         try {
             const product_id = v4()
             const product = {
                 id: product_id,
+                supplier_id,
                 product_name
             }
             const price = {
                 product_id,
+                buy_price,
                 admin_price,
                 agen_price,
                 reseller_price

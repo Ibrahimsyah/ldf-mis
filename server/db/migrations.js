@@ -19,7 +19,7 @@ module.exports = {
                 })
                 .createTable('products', table => {
                     table.string('id', 100).primary().notNullable()
-                    table.string('supplier_id', 100).references('id').inTable('suppliers')
+                    table.string('supplier_id', 100).references('id').inTable('suppliers').defaultTo()
                     table.string('product_name', 100)
                     table.boolean('is_deleted').defaultTo(0)
                 })

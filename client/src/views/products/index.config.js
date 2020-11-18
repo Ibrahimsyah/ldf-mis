@@ -24,6 +24,11 @@ export default {
                     key: 'product_id',
                 },
                 {
+                    title: 'Harga Beli',
+                    dataIndex: 'buy_price',
+                    render: row => parsePrice(row)
+                },
+                {
                     title: 'Harga Jual LDF',
                     dataIndex: 'admin_price',
                     render: row => parsePrice(row)

@@ -29,6 +29,10 @@ export default {
                 message : 'Harga tidak boleh kosong'
             }]
         },
+        buy_price: {
+            name : 'buy_price',
+            label: 'Harga Beli',
+        },
         agen_price: {
             name : 'agen_price',
             label: 'Harga Jual Agen',
