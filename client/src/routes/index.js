@@ -1,14 +1,22 @@
 import Dashboard from '../views/dashboard'
+
 import Product from '../views/products'
 import AddProduct from '../views/products/addProduct'
 import EditProduct from '../views/products/editProduct'
+
 import User from '../views/users'
 import AddUser from '../views/users/addUser'
+
 import Region from '../views/regions'
 import AddRegion from '../views/regions/addRegion'
 import EditRegion from '../views/regions/editRegion'
+
 import Sales from '../views/sales'
 import AddSales from '../views/sales/addSales'
+
+import Supplier from '../views/suppliers'
+import AddSupplier from '../views/suppliers/addSupplier'
+import EditSupplier from '../views/suppliers/editSupplier'
 
 export default [
     {
@@ -54,5 +62,17 @@ export default [
     {
         path     : '/sales',
         component: Sales
-    }
+    },
+    {
+        path     : '/supplier/edit/:supplier_id',
+        component: EditSupplier
+    },
+    {
+        path     : '/supplier/add',
+        component: AddSupplier
+    },
+    {
+        path     : '/supplier',
+        component: Supplier
+    },
 ]

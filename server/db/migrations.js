@@ -8,8 +8,18 @@ module.exports = {
                     table.string('id', 100).primary().notNullable()
                     table.string('region_name', 100)
                 })
+                .createTable('suppliers', table => {
+                    table.string('id', 100).primary().notNullable()
+                    table.string('nama', 50)
+                    table.string('nama_pemilik', 50)
+                    table.string('alamat', 200)
+                    table.string('no_telp',13)
+                    table.string('email', 40)
+                    table.boolean('is_deleted').defaultTo(0)
+                })
                 .createTable('products', table => {
                     table.string('id', 100).primary().notNullable()
+                    table.string('supplier_id', 100).references('id').inTable('suppliers')
                     table.string('product_name', 100)
                     table.boolean('is_deleted').defaultTo(0)
                 })
@@ -60,6 +70,7 @@ module.exports = {
                 })
                 .createTable('prices', table => {
                     table.string('product_id', 100).references('id').inTable('products')
+                    table.integer('buy_price').defaultTo(0)
                     table.integer('admin_price').defaultTo(0)
                     table.integer('agen_price').defaultTo(0)
                     table.integer('reseller_price').defaultTo(0)

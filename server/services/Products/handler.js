@@ -26,8 +26,8 @@ module.exports = {
             const products = await db('products as p')
                 .select('product_id', 'product_name', 'admin_price', 'agen_price', 'reseller_price')
                 .join('prices as p2', 'p2.product_id', '=', 'p.id')
-                .offset(limit * (page - 1))
                 .whereRaw(`lower(product_name) like '%${keyword.toLowerCase()}%' and is_deleted = 0`)
+                .offset(limit * (page - 1))
                 .limit(limit)
             data = { meta: meta, data: products }
         }
