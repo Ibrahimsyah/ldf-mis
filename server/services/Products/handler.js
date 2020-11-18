@@ -50,7 +50,6 @@ module.exports = {
         const { product_id } = req.query
         const { product_name, buy_price, supplier_id, admin_price, agen_price, reseller_price } = req.body
         try {
-            console.log(req.body)
             await db('prices').where({ product_id: product_id }).update({ buy_price, admin_price, agen_price, reseller_price })
             await db('products').where({ id: product_id }).update({
                 supplier_id: supplier_id || knex.raw('DEFAULT'),

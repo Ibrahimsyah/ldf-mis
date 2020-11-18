@@ -2,7 +2,6 @@ import React from 'react'
 import { Button } from 'antd'
 import { DeleteFilled, EditFilled } from '@ant-design/icons'
 
-const parsePrice = (price) => "Rp." + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 export default {
     initState: {
         data: [],
