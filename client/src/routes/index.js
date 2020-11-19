@@ -22,6 +22,7 @@ import DetailSupplier from '../views/suppliers/supplierDetail'
 import AddSupplier from '../views/suppliers/addSupplier'
 import EditSupplier from '../views/suppliers/editSupplier'
 
+import Report from '../views/reports'
 export default [
     {
         path: '/dashboard',
@@ -90,5 +91,9 @@ export default [
     {
         path: '/supplier',
         component: Supplier
+    },
+    {
+        path: '/laporan',
+        component: Report
     },
 ]

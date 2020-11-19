@@ -103,7 +103,7 @@ const App = (props) => {
     setState((state) => ({ ...state, loading: true }));
     let url = `users?page=${page || initState.pagination.current}&limit=${
       limit || initState.pagination.pageSize
-    }&sortby=u.activated&mode=asc`;
+    }`;
     if (sorter.field)
       url += `&sortby=${sorter.field}&mode=${
         sorter.order === "ascend" ? "ASC" : "DESC"
@@ -135,31 +135,8 @@ const App = (props) => {
     populateSummary();
   }, []);
   return (
-    <Content title={profile.role_name === AGEN ? "Reseller" : "User"}>
-      {profile.role_name === ADMIN && <UserStats {...state.userSummary} />}
-      <Row gutter={[24,24]} style={{ marginBottom: 16 }}>
-        <Col xs={24} md={16}>
-          <Input.Search
-            placeholder="Cari berdasarkan nama"
-            onSearch={handleSearchQuery}
-          />
-        </Col>
-        <Col xs={24} md={8}>
-          <Button
-            type="primary"
-            style={{ width: "100%" }}
-            onClick={() => history.push("/user/add")}
-          >
-            Tambah {profile.role_name === AGEN ? "Reseller" : "User"}
-          </Button>
-        </Col>
-      </Row>
-      <Table
-        {...table(onDelete, onEdit, onApprove, profile.role_name)}
-        {...state}
-        dataSource={state.data}
-        onChange={handleTableChange}
-      />
+    <Content title="Laporan Kinerja">
+     Hello World
     </Content>
   );
 };

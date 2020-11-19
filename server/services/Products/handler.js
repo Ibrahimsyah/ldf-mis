@@ -27,6 +27,7 @@ module.exports = {
                 .select('product_id', 'product_name', 'buy_price', 'admin_price', 'agen_price', 'reseller_price')
                 .join('prices as p2', 'p2.product_id', '=', 'p.id')
                 .whereRaw(`lower(product_name) like '%${keyword.toLowerCase()}%' and is_deleted = 0`)
+                .orderBy('product_name', 'asc')
                 .offset(limit * (page - 1))
                 .limit(limit)
             data = { meta: meta, data: products }

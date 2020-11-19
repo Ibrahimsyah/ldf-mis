@@ -74,11 +74,11 @@ export default {
         },
         region_id: {
             name: 'region_id',
-            label: 'Region',
+            label: 'Wilayah',
             rules: [
                 {
                     required: true,
-                    message: 'Pilih Region tempat Agen berada'
+                    message: 'Pilih Wilayah tempat Agen berada'
                 }
             ]
         },
