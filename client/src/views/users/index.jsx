@@ -28,7 +28,7 @@ const UserStats = (props) => {
       <Col lg={8} sm={24} xs={24}>
         <div className="stat-card">
           <h1>{regionCount}</h1>
-          <h3>Total Daerah</h3>
+          <h3>Total Wilayah</h3>
         </div>
       </Col>
     </Row>

@@ -13,7 +13,7 @@ export default {
         loading: false,
         searchQuery: null
     },
-    table: (onDelete, onEdit) => {
+    table: (onDelete, onEdit, onClick) => {
         return {
             rowKey: 'id',
             columns: [
@@ -49,6 +49,11 @@ export default {
                     )
                 }
             ],
+            onRow: (row) => {
+                return {
+                    onClick: () => onClick(row)
+                }
+            }
         }
     }
 }

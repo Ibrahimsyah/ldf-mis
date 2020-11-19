@@ -57,16 +57,23 @@ const menu = [{
     description: 'Kelola Reseller',
     icon       : TeamOutlined
 },
+{
+    id         : 8,
+    name       : 'Pembelian',
+    description: 'Kelola Data Pembelian',
+    path       : '/purchase',
+    icon       : BarChartOutlined
+},
 
 ]
 
 const userMenu = {
-    [ADMIN]   : [1, 2, 3, 4, 5, 6],
+    [ADMIN]   : [1, 2, 3, 8, 4, 5, 6],
     [AGEN]    : [1, 3, 6],
     [RESELLER]: [1, 3]
 }
 
 export const getMenu = (role = ADMIN) => {
     const roleMenu = userMenu[role]
-    return menu.filter(m => roleMenu.includes(m.id))
+    return roleMenu.map(index => menu.find(m => m.id === index))
 }

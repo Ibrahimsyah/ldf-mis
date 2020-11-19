@@ -41,6 +41,9 @@ export default (props) => {
     history.push(`/supplier/edit/${row.id}`);
   };
 
+  const onRowClick = row => {
+    history.push(`/supplier/${row.id}`)
+  }
   const refresh = async (page, limit, query) => {
     setState((state) => ({ ...state, loading: true }));
     let url = `suppliers?page=${page || initState.pagination.current}&limit=${
@@ -84,7 +87,7 @@ export default (props) => {
         </Col>
       </Row>
       <Table
-        {...table(onDelete, onEdit)}
+        {...table(onDelete, onEdit, onRowClick)}
         {...state}
         dataSource={state.data}
         onChange={handleTableChange}

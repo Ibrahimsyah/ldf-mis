@@ -14,65 +14,81 @@ import EditRegion from '../views/regions/editRegion'
 import Sales from '../views/sales'
 import AddSales from '../views/sales/addSales'
 
+import Purchase from '../views/purchase'
+import AddPurchase from '../views/purchase/addPurchase'
+
 import Supplier from '../views/suppliers'
+import DetailSupplier from '../views/suppliers/supplierDetail'
 import AddSupplier from '../views/suppliers/addSupplier'
 import EditSupplier from '../views/suppliers/editSupplier'
 
 export default [
     {
-        path     : '/dashboard',
+        path: '/dashboard',
         component: Dashboard
     },
     {
-        path     : '/product/edit/:product_id',
+        path: '/product/edit/:product_id',
         component: EditProduct
     },
     {
-        path     : '/product/add',
+        path: '/product/add',
         component: AddProduct
     },
     {
-        path     : '/product',
+        path: '/product',
         component: Product
     },
     {
-        path     : '/user/add',
+        path: '/user/add',
         component: AddUser
     },
     {
-        path     : '/user',
+        path: '/user',
         component: User
     },
     {
-        path     : '/region/edit/:region_id',
+        path: '/region/edit/:region_id',
         component: EditRegion
     },
     {
-        path     : '/region/add',
+        path: '/region/add',
         component: AddRegion
     },
     {
-        path     : '/region',
+        path: '/region',
         component: Region
     },
     {
-        path     : '/sales/add',
+        path: '/sales/add',
         component: AddSales
     },
     {
-        path     : '/sales',
+        path: '/sales',
         component: Sales
     },
     {
-        path     : '/supplier/edit/:supplier_id',
+        path: '/purchase/add',
+        component: AddPurchase
+    },
+    {
+        path: '/purchase',
+        component: Purchase
+    },
+    {
+        path: '/supplier/edit/:supplier_id',
         component: EditSupplier
     },
     {
-        path     : '/supplier/add',
+        path: '/supplier/add',
         component: AddSupplier
     },
     {
-        path     : '/supplier',
+        path: '/supplier/:supplier_id',
+        component: DetailSupplier
+    },
+    {
+        path: '/supplier',
         component: Supplier
     },
 ]

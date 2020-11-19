@@ -54,6 +54,14 @@ module.exports = {
 
     unseed: async (_, res) => {
         try {
+            await db('prices').del()
+            await db('pembelian').del()
+            await db('penjualan').del()
+            await db('reseller').del()
+            await db('agen').del()
+            await db('products').del()
+            await db('suppliers').del()
+            await db('regions').del()
             await db('profiles').del()
             await db('users').del()
             await db('roles').del()

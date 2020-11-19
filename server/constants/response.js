@@ -17,6 +17,11 @@ module.exports = {
             error: 'Unauthorized'
         })
     },
+    accountDisabled: writer => {
+        return writer.status(403).json({
+            error: 'Akun telah dihapus, Hubungi Administrator'
+        })
+    },
     accountNotActive: writer => {
         return writer.status(403).json({
             error: 'Akun anda sedang dalam menunggu persetujuan admin'

@@ -43,7 +43,7 @@ export default (props) => {
       });
   }, [form, supplier_id]);
   return (
-    <Content title="Edit Produk">
+    <Content title="Edit Data Supplier">
       <Spin spinning={loading}>
         <Form form={form} {...layout.formBody} onFinish={handleSubmit}>
         <Form.Item {...schema.supplier_name}>

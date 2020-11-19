@@ -1,9 +1,10 @@
 import axios from 'axios'
+import {clearAuth} from '../stores/actions/auth'
 import store from '../stores'
 
 const APIURL = process.env.REACT_APP_API_URL
 const getAuth = () => {
-    const {auth} = store.getState();
+    const { auth } = store.getState();
     return auth
 };
 const getHeaders = (refreshToken) => {
@@ -37,6 +38,9 @@ const doRequest = async option => {
         if (!err.response?.data?.error) {
             error = "Ada Kerusakan Server, Mohon Hubungi Administrator"
         } else {
+            if (err.response.status === 403) {
+                store.dispatch(clearAuth())
+            }
             error = err.response.data.error
         }
         return Promise.reject(error)

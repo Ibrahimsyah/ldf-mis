@@ -5,15 +5,22 @@ const response = require('../../constants/response')
 
 module.exports = {
     getSuppliers: async (req, res, next) => {
-        const { supplier_id } = req.query
+        const { supplier_id, showProducts } = req.query
         let data = null;
         try {
             if (supplier_id) {
-                data = await db('suppliers')
-                    .select('id', 'nama', 'nama_pemilik', 'alamat', 'no_telp', 'email')
-                    .where('is_deleted', 0)
-                    .andWhere('id', supplier_id)
+                data = await db('suppliers as s')
+                    .select('s.id', 'nama', 'nama_pemilik', 'alamat', 'no_telp', 'email')
+                    .where('s.is_deleted', 0)
+                    .andWhere('s.id', supplier_id)
                     .first()
+                if (showProducts) {
+                    const products = await db('products as p')
+                        .select('p.id', 'p.product_name', 'h.buy_price')
+                        .join('prices as h', 'h.product_id', '=', 'p.id')
+                        .where('p.supplier_id', supplier_id)
+                    data.products = products
+                }
             } else {
                 const { page = 1, limit = 1000, keyword = '' } = req.query
                 const builder = db('suppliers').where('is_deleted', 0)

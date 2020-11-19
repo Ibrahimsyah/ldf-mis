@@ -63,7 +63,6 @@ module.exports = {
                     table.primary(['seller_id', 'product_id', 'waktu'])
                 })
                 .createTable('pembelian', table => {
-                    table.string('seller_id', 100).references('id').inTable('users')
                     table.string('product_id', 100).references('id').inTable('products')
                     table.timestamp('waktu')
                     table.integer('jumlah').defaultTo(0)
@@ -98,6 +97,7 @@ module.exports = {
             .dropTableIfExists('users')
             .dropTableIfExists('roles')
             .dropTableIfExists('products')
+            .dropTableIfExists('suppliers')
             .dropTableIfExists('regions')
             .then(() => {
                 res.json('Undo Migration Success')
