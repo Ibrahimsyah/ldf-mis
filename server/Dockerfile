@@ -4,4 +4,5 @@ WORKDIR /server
 COPY package*.json /server
 RUN npm install
 COPY . /server
-CMD npm start
+RUN chmod +x ./wait-for.sh
+CMD ./wait-for.sh db:3306 -- npm start

@@ -14,8 +14,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ldf
       MYSQL_DATABASE: test
-    healthcheck:
-      test: ["CMD", 'mysqladmin', 'ping', '-h', 'localhost', '-u', 'root', '-p$$MYSQL_ROOT_PASSWORD' ]
     ports:
       - 3306:3306
     volumes:
