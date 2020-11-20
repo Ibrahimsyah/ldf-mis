@@ -1,0 +1,28 @@
+version: '3.7'
+services:
+  backend:
+    build: .
+    ports:
+      - "80:5001"
+    depends_on:
+      - "db"
+    networks: 
+      - server_network
+  db:
+    image: 'mysql:latest'
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: ldf
+      MYSQL_DATABASE: test
+    healthcheck:
+      test: ["CMD", 'mysqladmin', 'ping', '-h', 'localhost', '-u', 'root', '-p$$MYSQL_ROOT_PASSWORD' ]
+    ports:
+      - 3306:3306
+    volumes:
+      - ldf-data:/var/lib/mysql
+    networks:    
+      - server_network
+networks:
+  server_network:
+volumes:
+  ldf-data:

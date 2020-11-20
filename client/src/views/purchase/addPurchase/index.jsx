@@ -10,18 +10,14 @@ import {
   Spin,
 } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
-import { connect } from "react-redux";
 import moment from "moment";
 import Content from "../../../components/Content";
 import api from "../../../providers/api";
 import config, { parsePrice } from "./index.config";
-import { AGEN, RESELLER } from "../../../contants/UserRoles";
-
 const { Option } = Select;
 
 const App = (props) => {
   const {
-    auth: { profile },
     history,
   } = props;
   const { schema, layout, state } = config;
@@ -161,10 +157,4 @@ const App = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    auth: state.auth,
-  };
-};
-
-export default connect(mapStateToProps)(App);
+export default (App);
