@@ -14,19 +14,22 @@ module.exports = {
                     .join('users as u', 'u.id', '=', 'p.seller_id')
                     .join('roles as r2', 'u.role_id', '=', 'r2.id')
                     .whereRaw(`MONTH (waktu) = MONTH(CURDATE()) and r2.role_name='Admin'`)
-                    .as('income')
             const outcome =
                 db('pembelian as p')
-                    .select('p.waktu', 'p3.product_name', 'p.jumlah', db.raw('p.jumlah*p2.buy_price as harga'), db.raw('false as is_income'))
+                    .select('p.waktu', 'p3.product_name', 'p.jumlah', db.raw('p.jumlah*p2.buy_price*-1 as harga'), db.raw('false as is_income'))
                     .join('prices as p2', 'p.product_id', '=', 'p2.product_id')
                     .join('products as p3', 'p3.id', '=', 'p.product_id')
                     .whereRaw('MONTH (waktu) = MONTH(CURDATE())')
-                
-            const builder = db.select('*').from(income.union(outcome))
 
-            const totalIncome = await builder.clone()
+            const builder = db.from(db.union(income, outcome).as('summary'))
 
-            res.json(totalIncome)
+            const data = await builder
+            const [{margin}] = await builder.select(db.raw('sum(harga) as margin'))
+
+            res.json({
+                margin,
+                data
+            })
         } catch (err) {
             next(err)
         }
