@@ -1,20 +1,15 @@
-.stat-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 16px;
-  margin: 8px 0px;
-  box-shadow: 8px 8px 20px 4px rgba(179,179,179,0.28);
-  -webkit-box-shadow: 8px 8px 20px 4px rgba(179,179,179,0.28);
-  -moz-box-shadow: 8px 8px 20px 4px rgba(179,179,179,0.28);
-
-  h1{
-      font-size: 2em;
-      margin-bottom: 0;
-  }
-  h3{
-    font-size: 1em;
-    text-align: center;
-    font-weight: 400;
-  }
+.row-income, .total-income{
+  color: green;
+}
+.total-income, .total-outcome, .total{
+  text-align: right;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+.row-outcome, .total-outcome{
+  color: red;
+}
+.summary-label{
+  font-weight: bold;
+  text-align: right;
 }

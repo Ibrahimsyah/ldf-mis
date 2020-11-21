@@ -1,15 +1,15 @@
 import React from 'react'
-import { Button } from 'antd'
-import { EditFilled, CheckOutlined, CloseOutlined } from '@ant-design/icons'
-import { ADMIN, AGEN } from '../../contants/UserRoles'
 
+import moment from 'moment'
+
+export const parsePrice = (price) => price > 0 ? "Rp." + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : "-Rp." + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",").replace('-', '')
 export default {
     initState: {
-        data: [],
-        userSummary: {
-            agenCount: 0,
-            resellerCount: 0,
-            regionCount: 0
+        inoutSummary: {
+            margin: 0,
+            totalIncome: 0,
+            totalOutcome: 0,
+            data: []
         },
         pagination: {
             pageSize: 10,
@@ -23,49 +23,36 @@ export default {
         loading: false,
         searchQuery: null
     },
-    table: (onDelete, onEdit, onApprove, role_name) => {
-        const columns = [
-            {
-                title: role_name === ADMIN ? "Nama User" : "Nama Reseller",
-                dataIndex: 'nama',
-                sorter: true
-            },
-        ]
-        if (role_name === ADMIN) {
-            columns.push(
-                {
-                    title: 'Role User',
-                    dataIndex: 'role_name',
-                    sorter: true
-                },
-                {
-                    title: 'Di daftarkan Oleh',
-                    dataIndex: 'created_by',
-                },
-                {
-                    title: 'Aksi',
-                    align: 'center',
-                    width: '10%',
-                    render: row => {
-                        const pending = row.status !== 'Aktif'
-                        return (
-                            <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-                                {pending && <Button type="primary" danger onClick={() => onDelete(row)}><CloseOutlined /></Button>}
-                                <Button type="primary" onClick={() => pending ? onApprove(row) : onEdit(row)}>{pending ? <CheckOutlined /> : <EditFilled style={{ color: '#fff' }} />}</Button>
-                            </div>
-                        )
-                    }
-                })
-        }else if(role_name === AGEN){
-            columns.push({
-                title: 'Status',
-                dataIndex: 'status',
-                sorter: true
-            })
-        }
+    table: () => {
         return {
-            rowKey: 'id',
-            columns: columns
+            pagination: false,
+            rowKey: row => row.waktu + row.product_name,
+            columns: [
+                {
+                    title: 'Waktu',
+                    dataIndex: 'waktu',
+                    render: row => moment(row).format('DD MMMM YYYY')
+                },
+                {
+                    title: 'Nama Produk',
+                    dataIndex: 'product_name'
+                },
+                {
+                    title: 'Jumlah',
+                    dataIndex: 'jumlah'
+                },
+                {
+                    title: 'Total',
+                    align: 'right',
+                    render: row => {
+                        if (row.is_income) {
+                            return <div className="row-income">{parsePrice(row.harga)}</div>
+                        } else {
+                            return <div className="row-outcome"> -{parsePrice(row.harga)}</div>
+                        }
+                    }
+                }
+            ]
         }
     }
 }

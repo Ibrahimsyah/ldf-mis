@@ -8,25 +8,30 @@ module.exports = {
         try {
             const income =
                 db('penjualan as p')
-                    .select('p.waktu', 'p3.product_name', 'p.jumlah', db.raw('p.jumlah*p2.admin_price as harga'), db.raw('true as is_income'))
+                    .select(db.raw('DATE(p.waktu) as waktu'), 'p3.product_name', db.raw('sum(p.jumlah) as jumlah'), db.raw('sum(p.jumlah*p2.admin_price) as harga'), db.raw('true as is_income'))
                     .join('prices as p2', 'p.product_id', 'p2.product_id')
                     .join('products as p3', 'p3.id', '=', 'p.product_id')
                     .join('users as u', 'u.id', '=', 'p.seller_id')
                     .join('roles as r2', 'u.role_id', '=', 'r2.id')
                     .whereRaw(`MONTH (waktu) = MONTH(CURDATE()) and r2.role_name='Admin'`)
+                    .groupByRaw('DATE(p.waktu), p3.product_name')
             const outcome =
                 db('pembelian as p')
-                    .select('p.waktu', 'p3.product_name', 'p.jumlah', db.raw('p.jumlah*p2.buy_price*-1 as harga'), db.raw('false as is_income'))
+                    .select(db.raw('DATE(p.waktu) as waktu'), 'p3.product_name', db.raw('sum(p.jumlah) as jumlah'), db.raw('sum(p.jumlah*p2.admin_price) as harga'), db.raw('false as is_income'))
                     .join('prices as p2', 'p.product_id', '=', 'p2.product_id')
                     .join('products as p3', 'p3.id', '=', 'p.product_id')
                     .whereRaw('MONTH (waktu) = MONTH(CURDATE())')
-
-            const builder = db.from(db.union(income, outcome).as('summary'))
+                    .groupByRaw('DATE(p.waktu), p3.product_name')
+            const builder = db.from(db.union(income, outcome).as('summary')).orderBy('waktu')
 
             const data = await builder
-            const [{margin}] = await builder.select(db.raw('sum(harga) as margin'))
+            const [{totalIncome}] = await db.select(db.raw('sum(harga) as totalIncome')).from(income.clone().as('income'))
+            const [{totalOutcome}] = await db.select(db.raw('sum(harga) as totalOutcome')).from(outcome.clone().as('outcome'))
+            const margin = totalIncome - totalOutcome
 
             res.json({
+                totalIncome,
+                totalOutcome,
                 margin,
                 data
             })

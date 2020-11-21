@@ -1,150 +1,63 @@
 import React, { useState, useEffect } from "react";
-import { Table, Input, Row, Col, Button, Modal, message } from "antd";
-import { connect } from "react-redux";
+import { message, Table } from "antd";
 import Content from "../../components/Content";
-import config from "./index.config";
+import config, {parsePrice} from "./index.config";
 import api from "../../providers/api";
-import { AGEN, ADMIN } from "../../contants/UserRoles";
 import "./index.scss";
-const { confirm } = Modal;
 
-const UserStats = (props) => {
-  const { agenCount, resellerCount, regionCount } = props;
-
-  return (
-    <Row gutter={24} style={{ marginBottom: 16 }}>
-      <Col lg={8} sm={12} xs={24}>
-        <div className="stat-card">
-          <h1>{agenCount}</h1>
-          <h3>Total Agen</h3>
-        </div>
-      </Col>
-      <Col lg={8} sm={12} xs={24}>
-        <div className="stat-card">
-          <h1>{resellerCount}</h1>
-          <h3>Total Reseller</h3>
-        </div>
-      </Col>
-      <Col lg={8} sm={24} xs={24}>
-        <div className="stat-card">
-          <h1>{regionCount}</h1>
-          <h3>Total Wilayah</h3>
-        </div>
-      </Col>
-    </Row>
-  );
-};
-const App = (props) => {
-  const {
-    history,
-    auth: { profile },
-  } = props;
+const App = () => {
   const { table, initState } = config;
   const [state, setState] = useState(initState);
 
-  const handleTableChange = (pagination, _, sorter) => {
-    setState((state) => ({ ...state, pagination: pagination, sorter: sorter }));
-  };
-
-  const handleSearchQuery = (query) =>
-    setState((state) => ({
-      ...state,
-      searchQuery: query,
-      pagination: { ...state.pagination, current: 1 },
-    }));
-
-  const onDelete = async (row) => {
-    confirm({
-      title: "Anda yakin akan menghapus User ini?",
-      content: "Anda harus menambah User lagi jika ingin mengembalikan",
-      onOk() {
-        return new Promise(async (resolve, reject) => {
-          await api.delete(`users?user_id=${row.id}`);
-          resolve();
-          refresh(
-            state.pagination.current,
-            state.pagination.pageSize,
-            state.searchQuery,
-            state.sorter
-          );
-        });
-      },
-      onCancel() {},
-    });
-    setState((state) => ({ ...state }));
-  };
-
-  const onEdit = (row) => {
-    history.push(`/user/edit/${row.id}`);
-  };
-
-  const onApprove = (row) => {
-    confirm({
-      title: "Anda yakin akan mengaktifkan User ini?",
-      content: "Aksi ini tidak dapat dikembalikan",
-      onOk() {
-        return new Promise(async (resolve, reject) => {
-          await api.put(`users/confirmation?user_id=${row.id}`);
-          resolve();
-          message.success('User berhasil di aktifkan')
-          refresh(
-            state.pagination.current,
-            state.pagination.pageSize,
-            state.searchQuery,
-            state.sorter
-          );
-        });
-      },
-      onCancel() {},
-    });
-    setState((state) => ({ ...state }));
-  };
-  const refresh = async (page, limit, query, sorter) => {
-    setState((state) => ({ ...state, loading: true }));
-    let url = `users?page=${page || initState.pagination.current}&limit=${
-      limit || initState.pagination.pageSize
-    }`;
-    if (sorter.field)
-      url += `&sortby=${sorter.field}&mode=${
-        sorter.order === "ascend" ? "ASC" : "DESC"
-      }`;
-    if (query) url += `&keyword=${query}`;
-    const { meta, data } = await api.get(url);
-    setState((state) => ({
-      ...state,
-      data: data,
-      pagination: meta,
-      loading: false,
-    }));
-  };
-
-  const populateSummary = async () => {
-    const res = await api.get("users/stat");
-    setState((state) => ({ ...state, userSummary: res }));
-  };
-  useEffect(() => {
-    refresh(
-      state.pagination.current,
-      state.pagination.pageSize,
-      state.searchQuery,
-      state.sorter
+  const renderSummary = () => {
+    return (
+      <>
+        <Table.Summary.Row>
+          <Table.Summary.Cell colSpan={3} className="summary-label">Total Pemasukan Bulan Ini</Table.Summary.Cell>
+          <Table.Summary.Cell >
+            <p className="total-income">{parsePrice(state.inoutSummary.totalIncome)}</p>
+          </Table.Summary.Cell>
+        </Table.Summary.Row>
+        <Table.Summary.Row>
+          <Table.Summary.Cell colSpan={3} className="summary-label">Total Pengeluaran Bulan Ini</Table.Summary.Cell>
+          <Table.Summary.Cell>
+            <p className="total-outcome">{"-" + parsePrice(state.inoutSummary.totalOutcome)}</p>
+          </Table.Summary.Cell>
+        </Table.Summary.Row>
+        <Table.Summary.Row>
+          <Table.Summary.Cell colSpan={3} className="summary-label">Total Margin Bulan Ini</Table.Summary.Cell>
+          <Table.Summary.Cell>
+            <p className="total">{parsePrice(state.inoutSummary.margin)}</p>
+          </Table.Summary.Cell>
+        </Table.Summary.Row>
+      </>
     );
-  }, [state.pagination.current, state.searchQuery, state.sorter]);
-
+  };
+  const getInOutSummary = async () => {
+    const res = await api.get("summary/inoutproducts");
+    return res;
+  };
   useEffect(() => {
-    populateSummary();
+    setState(state => ({...state, loading:true}))
+    getInOutSummary().then((res) => {
+      setState((state) => ({ ...state, inoutSummary: res }));
+    })
+    .catch(err => {
+      console.log(err)
+      message.error(err)
+    })
+    .finally(() => {
+      setState(state => ({...state, loading:false}))
+    });
   }, []);
   return (
     <Content title="Laporan Kinerja">
-     Hello World
+      <Table
+        {...table()}
+        dataSource={state.inoutSummary.data}
+        summary={renderSummary}
+      />
     </Content>
   );
 };
-
-const mapStateToProps = (state) => {
-  return {
-    auth: state.auth,
-  };
-};
-
-export default connect(mapStateToProps)(App);
+export default (App);
