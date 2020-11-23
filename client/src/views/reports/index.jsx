@@ -76,14 +76,14 @@ const App = () => {
   return (
     <Content title="Laporan Kinerja">
       <Collapse accordion defaultActiveKey={["1"]}>
-        <Panel header="Laporan Keuangan" key="1">
+        <Panel header="Laporan Keuangan Bulan Ini" key="1">
           <Table
             {...tableInOut()}
             dataSource={state.inoutSummary.data}
             summary={renderSummary}
           />
         </Panel>
-        <Panel header="Laporan Kinerja Agen" key="2">
+        <Panel header="Laporan Kinerja Agen Bulan Ini" key="2">
           <Table
             className="agent-table"
             {...tableAgentSummary()}
