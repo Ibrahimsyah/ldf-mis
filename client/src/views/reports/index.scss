@@ -13,3 +13,11 @@
   font-weight: bold;
   text-align: right;
 }
+
+.agent-table{
+  .ant-table-row{
+    &:hover{
+      cursor: pointer;
+    }
+  }
+}

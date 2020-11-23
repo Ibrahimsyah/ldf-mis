@@ -3,8 +3,6 @@ const __ = require('../../middlewares')
 const _ = require('./handler')
 
 router.get('/inoutproducts', __.checkToken, _.getInOut)
-// router.put('/', __.checkToken, _.editRegion)
-// router.post('/', __.checkToken, _.addRegion)
-// router.delete('/', __.checkToken, _.deleteRegion)
+router.get('/agentreport', __.checkToken, _.getAgenReport)
 
 module.exports = router
