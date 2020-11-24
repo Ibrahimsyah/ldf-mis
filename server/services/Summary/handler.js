@@ -25,13 +25,13 @@ module.exports = {
             const builder = db.from(db.union(income, outcome).as('summary')).orderBy('waktu')
 
             const data = await builder
-            const [{totalIncome = 0}] = await db.select(db.raw('sum(harga) as totalIncome')).from(income.clone().as('income'))
-            const [{totalOutcome = 0}] = await db.select(db.raw('sum(harga) as totalOutcome')).from(outcome.clone().as('outcome'))
+            const [{totalIncome}] = await db.select(db.raw('sum(harga) as totalIncome')).from(income.clone().as('income'))
+            const [{totalOutcome}] = await db.select(db.raw('sum(harga) as totalOutcome')).from(outcome.clone().as('outcome'))
             const margin = totalIncome - totalOutcome
 
             res.json({
-                totalIncome,
-                totalOutcome,
+                totalIncome: totalIncome || 0,
+                totalOutcome: totalOutcome || 0,
                 margin,
                 data
             })
