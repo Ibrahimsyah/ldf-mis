@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken')
 const response = require('../../constants/response')
 
 const SALT = process.env.SALT_ROUND
-const SECRET = process.env.SECRET
+const SECRET = process.env.JWT_SECRET
 
 module.exports = {
     registerNewUser: async (req, res) => {
