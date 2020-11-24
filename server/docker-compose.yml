@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   webserver:
-    image: mainline-alpine
+    image: nginx:mainline-alpine
     container_name: webserver
     restart: unless-stopped
     ports: 
@@ -53,13 +53,13 @@ services:
       - server_network
 networks:
   server_network:
+volumes:
+  ldf-data:
   certbot-etc:
   certbot-var:
   web-root:
     driver: local
     driver_opts:
       type: none
-      device: /root/www
+      device: ~/www
       o: bind
-volumes:
-  ldf-data:
