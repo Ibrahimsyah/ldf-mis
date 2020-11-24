@@ -1,8 +1,4 @@
 const db = require('../../db')
-const { RESELLER, AGEN } = require('../../constants/roles')
-const { json } = require('express')
-const { select } = require('../../db')
-
 module.exports = {
     getInOut: async (req, res, next) => {
         try {
