@@ -91,10 +91,10 @@ const App = (props) => {
     });
   };
 
-  const handleDeleteItem = row => {
-    const newCart = cart.filter(item => item.product_id !== row.product_id)
-    setCart(newCart)
-  }
+  const handleDeleteItem = (row) => {
+    const newCart = cart.filter((item) => item.product_id !== row.product_id);
+    setCart(newCart);
+  };
   const calculateSummary = () => {
     const totalPrices =
       cart.length > 0
@@ -152,12 +152,14 @@ const App = (props) => {
             {...schema.productList(handleDeleteItem)}
             pagination={false}
           />
-          <Form.Item {...layout.formFooter}>
-            {calculateSummary()}
+          <Form.Item>
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
-              <Button type="primary" onClick={handleSubmit}>
-                {loading.submit && <LoadingOutlined />} Simpan Data Penjualan
-              </Button>
+              <div>
+                {calculateSummary()}
+                <Button type="primary" onClick={handleSubmit}>
+                  {loading.submit && <LoadingOutlined />} Simpan Data Penjualan
+                </Button>
+              </div>
             </div>
           </Form.Item>
         </Form>

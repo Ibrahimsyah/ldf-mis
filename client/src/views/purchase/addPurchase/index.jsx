@@ -17,9 +17,7 @@ import config, { parsePrice } from "./index.config";
 const { Option } = Select;
 
 const App = (props) => {
-  const {
-    history,
-  } = props;
+  const { history } = props;
   const { schema, layout, state } = config;
   const [productList, setProductList] = useState([]);
   const [cart, setCart] = useState([]);
@@ -73,7 +71,7 @@ const App = (props) => {
     }
     const p = productList.find((p) => p.product_id === product_id);
     item.product_name = p.product_name;
-    item.price = p.buy_price
+    item.price = p.buy_price;
     setCart((cart) => [item, ...cart]);
 
     form.setFieldsValue({
@@ -82,10 +80,10 @@ const App = (props) => {
     });
   };
 
-  const handleDeleteItem = row => {
-    const newCart = cart.filter(item => item.product_id !== row.product_id)
-    setCart(newCart)
-  }
+  const handleDeleteItem = (row) => {
+    const newCart = cart.filter((item) => item.product_id !== row.product_id);
+    setCart(newCart);
+  };
   const calculateSummary = () => {
     const totalPrices =
       cart.length > 0
@@ -110,7 +108,10 @@ const App = (props) => {
     <Content title="Tambah Pembelian">
       <Spin spinning={loading.content}>
         <Form form={form} {...layout.formBody} onFinish={handleSubmit}>
-          <Form.Item {...schema.purchase_date} initialValue={moment(Date.now())}>
+          <Form.Item
+            {...schema.purchase_date}
+            initialValue={moment(Date.now())}
+          >
             <DatePicker format={dateFormat} />
           </Form.Item>
           <Form.Item {...schema.tambah_barang}>
@@ -143,12 +144,14 @@ const App = (props) => {
             {...schema.productList(handleDeleteItem)}
             pagination={false}
           />
-          <Form.Item {...layout.formFooter}>
-            {calculateSummary()}
+          <Form.Item>
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
-              <Button type="primary" onClick={handleSubmit}>
-                {loading.submit && <LoadingOutlined />} Simpan Data Penjualan
-              </Button>
+              <div>
+                {calculateSummary()}
+                <Button type="primary" onClick={handleSubmit}>
+                  {loading.submit && <LoadingOutlined />} Simpan Data Penjualan
+                </Button>
+              </div>
             </div>
           </Form.Item>
         </Form>
@@ -157,4 +160,4 @@ const App = (props) => {
   );
 };
 
-export default (App);
+export default App;
