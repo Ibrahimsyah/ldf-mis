@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { message, Table, Collapse } from "antd";
+import { message, Table, Collapse, Spin } from "antd";
 import Content from "../../components/Content";
 import config, { parsePrice } from "./index.config";
 import api from "../../providers/api";
@@ -8,13 +8,13 @@ import "./index.scss";
 const { Panel } = Collapse;
 
 const App = (props) => {
-  const {history} = props
+  const { history } = props;
   const { tableInOut, tableSummary, initState } = config;
   const [state, setState] = useState(initState);
 
-  const onAgenClick = row => {
-    history.push(`/laporan/agen/${row.user_id}`)
-  }
+  const onAgenClick = (row) => {
+    history.push(`/laporan/agen/${row.user_id}`);
+  };
   const renderSummary = () => {
     return (
       <>
@@ -60,9 +60,9 @@ const App = (props) => {
   };
 
   const getResellerSummary = async () => {
-    const res = await api.get('summary/resellerreport')
-    return res
-  }
+    const res = await api.get("summary/resellerreport");
+    return res;
+  };
   useEffect(() => {
     setState((state) => ({ ...state, loading: true }));
     Promise.all([getInOutSummary(), getAgenSummary(), getResellerSummary()])
@@ -72,7 +72,7 @@ const App = (props) => {
           ...state,
           inoutSummary: inout,
           agentSummary: agent,
-          resellerSummary: reseller
+          resellerSummary: reseller,
         }));
       })
       .catch((err) => {
@@ -85,29 +85,31 @@ const App = (props) => {
   }, []);
   return (
     <Content title="Laporan Kinerja" backToDashboard>
-      <Collapse accordion defaultActiveKey={["1"]}>
-        <Panel header="Laporan Keuangan Bulan Ini" key="1">
-          <Table
-            {...tableInOut()}
-            dataSource={state.inoutSummary.data}
-            summary={renderSummary}
-          />
-        </Panel>
-        <Panel header="Laporan Kinerja Agen Bulan Ini" key="2">
-          <Table
-            className="agent-table"
-            {...tableSummary(onAgenClick)}
-            dataSource={state.agentSummary}
-          />
-        </Panel>
-        <Panel header="Laporan Kinerja Reseller Bulan Ini" key="3">
-          <Table
-            className="reseller-table"
-            {...tableSummary()}
-            dataSource={state.resellerSummary}
-          />
-        </Panel>
-      </Collapse>
+      <Spin spinning={state.loading}>
+        <Collapse accordion defaultActiveKey={["1"]}>
+          <Panel header="Laporan Keuangan Bulan Ini" key="1">
+            <Table
+              {...tableInOut()}
+              dataSource={state.inoutSummary.data}
+              summary={renderSummary}
+            />
+          </Panel>
+          <Panel header="Laporan Kinerja Agen Bulan Ini" key="2">
+            <Table
+              className="agent-table"
+              {...tableSummary(onAgenClick)}
+              dataSource={state.agentSummary}
+            />
+          </Panel>
+          <Panel header="Laporan Kinerja Reseller Bulan Ini" key="3">
+            <Table
+              className="reseller-table"
+              {...tableSummary()}
+              dataSource={state.resellerSummary}
+            />
+          </Panel>
+        </Collapse>
+      </Spin>
     </Content>
   );
 };
