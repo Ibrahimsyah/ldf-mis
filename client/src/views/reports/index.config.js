@@ -12,6 +12,7 @@ export default {
             data: []
         },
         agentSummary: [],
+        resellerSummary: [],
         pagination: {
             pageSize: 10,
             current: 1,
@@ -24,7 +25,7 @@ export default {
         loading: false,
         searchQuery: null
     },
-    tableAgentSummary: (onClick) => {
+    tableSummary: (onClick = () => {}) => {
         return {
             pagination: false,
             rowKey: 'user_id',

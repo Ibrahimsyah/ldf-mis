@@ -30,7 +30,7 @@ export default (props) => {
         <Form.Item label="Alamat">{state.agen_info.alamat}</Form.Item>
         <Form.Item label="Wilayah">{state.agen_info.region_name}</Form.Item>
       </Form>
-      <h3>Kinerja Reseller</h3>
+      <h3>Kinerja Reseller Bulan Ini</h3>
       <Table {...state} {...tableResellerReport()} />
     </Content>
   );

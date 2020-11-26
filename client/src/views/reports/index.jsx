@@ -9,7 +9,7 @@ const { Panel } = Collapse;
 
 const App = (props) => {
   const {history} = props
-  const { tableInOut, tableAgentSummary, initState } = config;
+  const { tableInOut, tableSummary, initState } = config;
   const [state, setState] = useState(initState);
 
   const onAgenClick = row => {
@@ -58,15 +58,21 @@ const App = (props) => {
     const res = await api.get("summary/agentreport");
     return res;
   };
+
+  const getResellerSummary = async () => {
+    const res = await api.get('summary/resellerreport')
+    return res
+  }
   useEffect(() => {
     setState((state) => ({ ...state, loading: true }));
-    Promise.all([getInOutSummary(), getAgenSummary()])
+    Promise.all([getInOutSummary(), getAgenSummary(), getResellerSummary()])
       .then((res) => {
-        const [inout, agent] = res;
+        const [inout, agent, reseller] = res;
         setState((state) => ({
           ...state,
           inoutSummary: inout,
           agentSummary: agent,
+          resellerSummary: reseller
         }));
       })
       .catch((err) => {
@@ -90,8 +96,15 @@ const App = (props) => {
         <Panel header="Laporan Kinerja Agen Bulan Ini" key="2">
           <Table
             className="agent-table"
-            {...tableAgentSummary(onAgenClick)}
+            {...tableSummary(onAgenClick)}
             dataSource={state.agentSummary}
+          />
+        </Panel>
+        <Panel header="Laporan Kinerja Reseller Bulan Ini" key="3">
+          <Table
+            className="reseller-table"
+            {...tableSummary()}
+            dataSource={state.resellerSummary}
           />
         </Panel>
       </Collapse>
