@@ -43,8 +43,14 @@ export default {
                     width: '10%',
                     render: row => (
                         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-                            <Button type="primary" onClick={() => onDelete(row)}><DeleteFilled style={{ color: '#fff' }} /></Button>
-                            <Button type="primary" onClick={() => onEdit(row)}><EditFilled style={{ color: '#fff' }} /></Button>
+                            <Button type="primary" onClick={(e) => {
+                                e.stopPropagation()
+                                onDelete(row)
+                            }}><DeleteFilled style={{ color: '#fff' }} /></Button>
+                            <Button type="primary" onClick={(e) => {
+                                e.stopPropagation()
+                                onEdit(row)
+                            }}><EditFilled style={{ color: '#fff' }} /></Button>
                         </div>
                     )
                 }

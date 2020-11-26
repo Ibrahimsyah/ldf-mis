@@ -27,7 +27,7 @@ export default {
         },
         admin_price: {
             name : 'admin_price',
-            label: 'Harga Jual Pusat',
+            label: 'Harga Jual LDF',
             rules: [{
                 required: true,
                 message : 'Harga tidak boleh kosong'

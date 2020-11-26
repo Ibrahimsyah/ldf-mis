@@ -152,7 +152,7 @@ const App = (props) => {
             {...schema.productList(handleDeleteItem)}
             pagination={false}
           />
-          <Form.Item>
+          <Form.Item wrapperCol={{span:24}}>
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <div>
                 {calculateSummary()}
