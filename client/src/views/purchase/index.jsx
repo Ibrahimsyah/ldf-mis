@@ -79,7 +79,7 @@ export default (props) => {
     });
   }, []);
   return (
-    <Content title="Pembelian">
+    <Content title="Pembelian" backToDashboard>
       <PurchaseStatus {...state.summary} />
       <Row gutter={[24, 24]} style={{ marginBottom: 16 }}>
         <Col xs={24} md={16}>

@@ -135,7 +135,7 @@ const App = (props) => {
     populateSummary();
   }, []);
   return (
-    <Content title={profile.role_name === AGEN ? "Reseller" : "User"}>
+    <Content title={profile.role_name === AGEN ? "Reseller" : "User"} backToDashboard>
       {profile.role_name === ADMIN && <UserStats {...state.userSummary} />}
       <Row gutter={[24,24]} style={{ marginBottom: 16 }}>
         <Col xs={24} md={16}>

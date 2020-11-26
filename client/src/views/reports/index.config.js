@@ -45,7 +45,7 @@ export default {
             ],
             onRow: (row) => {
                 return {
-                    onClick: () => console.log(row)
+                    onClick: () => onClick(row)
                 }
             }
         }

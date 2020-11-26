@@ -7,10 +7,14 @@ import "./index.scss";
 
 const { Panel } = Collapse;
 
-const App = () => {
+const App = (props) => {
+  const {history} = props
   const { tableInOut, tableAgentSummary, initState } = config;
   const [state, setState] = useState(initState);
 
+  const onAgenClick = row => {
+    history.push(`/laporan/agen/${row.user_id}`)
+  }
   const renderSummary = () => {
     return (
       <>
@@ -74,7 +78,7 @@ const App = () => {
       });
   }, []);
   return (
-    <Content title="Laporan Kinerja">
+    <Content title="Laporan Kinerja" backToDashboard>
       <Collapse accordion defaultActiveKey={["1"]}>
         <Panel header="Laporan Keuangan Bulan Ini" key="1">
           <Table
@@ -86,7 +90,7 @@ const App = () => {
         <Panel header="Laporan Kinerja Agen Bulan Ini" key="2">
           <Table
             className="agent-table"
-            {...tableAgentSummary()}
+            {...tableAgentSummary(onAgenClick)}
             dataSource={state.agentSummary}
           />
         </Panel>
@@ -94,4 +98,5 @@ const App = () => {
     </Content>
   );
 };
+
 export default App;

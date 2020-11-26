@@ -17,12 +17,14 @@ module.exports = {
                 case RESELLER.role_name:
                     priceID = 'reseller_price'
             }
-            let data = await db('penjualan as p')
-                .select('p.product_id', 'pr.product_name', 'p.jumlah', `h.${priceID} as harga_satuan`, 'p.waktu', db.raw(`p.jumlah * h.${priceID} as total`))
-                .join('prices as h', 'p.product_id', '=', 'h.product_id')
-                .join('products as pr', 'pr.id', '=', 'p.product_id')
-                .whereRaw(`p.seller_id = '${req.user_id}' and (cast(p.waktu as date) <= CURDATE() and cast(p.waktu as date) > CURDATE() - ${range})`)
-                .orderBy('p.waktu', "desc")
+            let builder = db('penjualan as p')
+            .select('p.product_id', 'pr.product_name', 'p.jumlah', `h.${priceID} as harga_satuan`, 'p.waktu', db.raw(`p.jumlah * h.${priceID} as total`))
+            .join('prices as h', 'p.product_id', '=', 'h.product_id')
+            .join('products as pr', 'pr.id', '=', 'p.product_id')
+            .whereRaw(`p.seller_id = '${req.user_id}' and (cast(p.waktu as date) <= CURDATE() and cast(p.waktu as date) > CURDATE() - ${range})`)
+            .orderBy('p.waktu', "desc")
+            console.log(builder.toSQL())
+            let data = await builder
 
             res.json(data).status(200)
         } catch (err) {

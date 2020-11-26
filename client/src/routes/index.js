@@ -23,6 +23,7 @@ import AddSupplier from '../views/suppliers/addSupplier'
 import EditSupplier from '../views/suppliers/editSupplier'
 
 import Report from '../views/reports'
+import AgenReport from '../views/reports/agen_detail'
 export default [
     {
         path: '/dashboard',
@@ -91,6 +92,10 @@ export default [
     {
         path: '/supplier',
         component: Supplier
+    },
+    {
+        path: '/laporan/agen/:agen_id',
+        component: AgenReport
     },
     {
         path: '/laporan',

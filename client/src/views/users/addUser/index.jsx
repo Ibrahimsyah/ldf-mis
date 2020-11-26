@@ -43,6 +43,7 @@ const App = (props) => {
         values.agen_id = auth.profile.id
       }
       await api.post("users", values);
+      message.success('Sukses Menambah User Baru')
       history.goBack();
     } catch (err) {
       message.error(err);

@@ -65,7 +65,7 @@ export default (props) => {
   }, [state.pagination.current, state.searchQuery]);
 
   return (
-    <Content title="Produk">
+    <Content title="Produk" backToDashboard>
       <Row gutter={[24,24]} style={{ marginBottom: 16 }}>
         <Col xs={24} md={16}>
           <Input.Search

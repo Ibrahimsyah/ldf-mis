@@ -13,12 +13,13 @@ module.exports = {
         if (agents) {
             [data] = await db.raw(
                 `select a.agen_id, p.nama as agen_name, group_concat(r.region_name SEPARATOR ', ') as agen_region 
-            from agen a
-            inner join regions r on r.id  = a.region_id  
-            inner join profiles p on p.user_id = a.agen_id 
-            inner join users u on u.id = a.agen_id
-            where u.is_deleted = 0
-            group by agen_id 
+                from agen a
+                inner join regions r on r.id  = a.region_id  
+                inner join profiles p on p.user_id = a.agen_id 
+                inner join users u on u.id = a.agen_id
+                where u.is_deleted = 0
+                group by agen_id
+                order by p.nama 
             `)
         }
         else if (user_id) {
@@ -31,7 +32,7 @@ module.exports = {
                     .whereRaw(`u.id = '${user_id}' and u.is_deleted = 0`)
                     .first()
         } else {
-            const { page = 1, limit = 10, keyword = '', sortby = 'u.id', mode = 'desc' } = req.query
+            const { page = 1, limit = 10, keyword = '', sortby = 'p.nama', mode = 'desc' } = req.query
             const regionTotal = (await db('regions as r')).length
             const meta = {
                 total: regionTotal,
