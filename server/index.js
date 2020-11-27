@@ -6,7 +6,7 @@ const services = require('./services')
 require('./db')
 
 const app = express()
-const PORT = process.env.PORT || 80
+const PORT = process.env.SERVICE_PORT || 80
 
 app.use(cors())
 app.use(express.json({ type: 'application/vnd.api+json' }))
