@@ -30,7 +30,7 @@ services:
   backend:
     build: .
     environment:
-        PORT: 5001
+        SERVICE_PORT: 5001
         DB_HOST: db
         DB_USER: root
         DB_PASSWORD: ldf
