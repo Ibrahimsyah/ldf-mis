@@ -23,7 +23,6 @@ module.exports = {
             .join('products as pr', 'pr.id', '=', 'p.product_id')
             .whereRaw(`p.seller_id = '${req.user_id}' and (cast(p.waktu as date) <= CURDATE() and cast(p.waktu as date) > CURDATE() - ${range})`)
             .orderBy('p.waktu', "desc")
-            console.log(builder.toSQL())
             let data = await builder
 
             res.json(data).status(200)

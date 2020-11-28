@@ -1,12 +1,26 @@
+require('dotenv').config()
 const { v4 } = require('uuid')
 const bcrypt = require('bcrypt')
-
+const SALT = process.env.SALT_ROUND
 const db = require('../../db')
 const { AGEN, RESELLER } = require('../../constants/roles')
 const response = require('../../constants/response')
 const activation = require('../../constants/activation')
 
 module.exports = {
+    getCurrentUser: async (req, res, next) => {
+        try {
+            const { user_id } = req
+            const data = await db('users as u')
+                .select('u.id', 'p.nama', 'u.email', 'p.alamat', 'p.pekerjaan')
+                .join('profiles as p', 'p.user_id', '=', 'u.id')
+                .where('u.id', user_id)
+                .first()
+            res.status(200).json(data)
+        } catch (err) {
+            next(err)
+        }
+    },
     getUsers: async (req, res) => {
         const { user_id, agents } = req.query
         let data = null;
@@ -77,25 +91,40 @@ module.exports = {
             next()
         }
     },
-
-    editUser: async (req, res, next) => {
-        const { user_id } = req.query
-        const { nama, role_id, email, pekerjaan, alamat, password } = req.body
-        try {
-            const hashedPassword = await bcrypt.hash(password, 11)
-            await db('users').where({ id: user_id }).update({
-                role_id: role_id,
-                email: email,
+    changePassword: async (req, res, next) => {
+        const { user_id } = req
+        const { oldPassword, newPassword} = req.body
+        const user = await db('users').select('*').where({ id: user_id}).first()
+        const equall = await bcrypt.compare(oldPassword, user.password)
+        if(equall){
+            const hashedPassword = await bcrypt.hash(newPassword, Number(SALT))
+            await db('users').where({id: user_id}).update({
                 password: hashedPassword
             })
-            await db('profiles').where({ user_id: user_id }).update({
-                nama: nama,
-                pekerjaan: pekerjaan,
-                alamat: alamat
-            })
             return response.success(res)
-        } catch {
-            next()
+        }else{
+            const error = new Error("Password Lama Salah")
+            res.status(400)
+            next(error)
+        }
+    },
+    editUser: async (req, res, next) => {
+        const { user_id } = req.query
+        const { nama, email, pekerjaan, alamat } = req.body
+        try {
+            const user = {
+                email,
+            }
+            const profile = {
+                nama,
+                pekerjaan,
+                alamat
+            }
+            await db('users').where({ id: user_id }).update(user)
+            await db('profiles').where({ user_id: user_id }).update(profile)
+            return response.success(res)
+        } catch (err) {
+            next(err)
         }
     },
 
@@ -107,7 +136,7 @@ module.exports = {
                 return response.error(res, 409, "Username telah digunakan, Coba username lain")
             }
             const user_id = v4()
-            const hashedPassword = await bcrypt.hash(password, 11)
+            const hashedPassword = await bcrypt.hash(password, Number(SALT))
             const user = {
                 id: user_id,
                 username: username,
@@ -169,9 +198,9 @@ module.exports = {
 
         const regions = await db('regions')
         res.json({
-            agenCount    : agents.length,
+            agenCount: agents.length,
             resellerCount: resellers.length,
-            regionCount  : regions.length
+            regionCount: regions.length
         })
     }
 }

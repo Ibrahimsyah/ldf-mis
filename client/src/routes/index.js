@@ -24,6 +24,8 @@ import EditSupplier from '../views/suppliers/editSupplier'
 
 import Report from '../views/reports'
 import AgenReport from '../views/reports/agen_detail'
+
+import Profile from '../views/profile'
 export default [
     {
         path: '/dashboard',
@@ -101,4 +103,8 @@ export default [
         path: '/laporan',
         component: Report
     },
+    {
+        path: '/profile',
+        component: Profile
+    }
 ]

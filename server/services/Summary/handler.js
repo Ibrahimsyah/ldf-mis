@@ -9,7 +9,7 @@ module.exports = {
                     .join('products as p3', 'p3.id', '=', 'p.product_id')
                     .join('users as u', 'u.id', '=', 'p.seller_id')
                     .join('roles as r2', 'u.role_id', '=', 'r2.id')
-                    .whereRaw(`MONTH (waktu) = MONTH(CURDATE()) and r2.role_name='Admin'`)
+                    .whereRaw(`MONTH (waktu) = MONTH(CURDATE()) and YEAR (waktu) = YEAR(CURDATE()) and r2.role_name='Admin'`)
                     .groupByRaw('p.waktu, p3.product_name')
             const outcome =
                 db('pembelian as p')
@@ -43,7 +43,7 @@ module.exports = {
                     .join('profiles as p', 'p.user_id', '=', 'a.agen_id')
                     .leftJoin('penjualan as p2', function () {
                         this.on('p2.seller_id', '=', 'a.agen_id')
-                        this.andOn(db.raw('MONTH (p2.waktu) = MONTH (CURDATE())'))
+                        this.andOn(db.raw('MONTH (p2.waktu) = MONTH (CURDATE()) and YEAR (waktu) = YEAR(CURDATE())'))
                     })
                     .leftJoin('prices as p3', 'p3.product_id', '=', 'p2.product_id')
                     .groupBy('p.user_id', 'p.nama')

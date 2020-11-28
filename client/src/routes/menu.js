@@ -6,7 +6,8 @@ import {
     EnvironmentOutlined,
     InsertRowBelowOutlined,
     FundOutlined,
-    ShoppingCartOutlined
+    ShoppingCartOutlined,
+    UserOutlined
 } from "@ant-design/icons";
 import { ADMIN, RESELLER, AGEN } from '../contants/UserRoles'
 
@@ -73,13 +74,20 @@ const menu = [{
     path       : '/laporan',
     icon       : FundOutlined
 },
+{
+    id         : 10,
+    name       : 'Profil',
+    description: 'Lihat atau Ubah Profil Anda',
+    path       : '/profile',
+    icon       : UserOutlined
+}
 
 ]
 
 const userMenu = {
-    [ADMIN]   : [1, 2, 3, 8, 4, 5, 6, 9],
-    [AGEN]    : [1, 7, 4],
-    [RESELLER]: [1, 4]
+    [ADMIN]   : [1, 2, 3, 8, 4, 5, 6, 9, 10],
+    [AGEN]    : [1, 7, 4, 10],
+    [RESELLER]: [1, 4, 10]
 }
 
 export const getMenu = (role = ADMIN) => {
