@@ -35,6 +35,8 @@ services:
         DB_USER: root
         DB_PASSWORD: ldf
         DB_NAME: test
+        JWT_SECRET: $2b$10$/jIzRRBFMCI9SOfiqGU2l.OP6tFvxulvlbQLSgwMfznnqdd/k/wIC
+        SALT_ROUND: 11
     ports:
       - "3211:5001"
     depends_on:
