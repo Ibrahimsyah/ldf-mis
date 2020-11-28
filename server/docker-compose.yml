@@ -30,13 +30,13 @@ services:
   backend:
     build: .
     environment:
-        - SERVICE_PORT: 5001
-        - DB_HOST: db
-        - DB_USER: root
-        - DB_PASSWORD: ldf
-        - DB_NAME: test
-        - JWT_SECRET: G=5+4@5ahPnQwNDH
-        - SALT_ROUND: 11
+        SERVICE_PORT: 5001
+        DB_HOST: db
+        DB_USER: root
+        DB_PASSWORD: ldf
+        DB_NAME: test
+        JWT_SECRET: G=5+4@5ahPnQwNDH
+        SALT_ROUND: 11
     ports:
       - "3211:5001"
     depends_on:
