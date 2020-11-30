@@ -38,7 +38,7 @@ const doRequest = async option => {
         if (!err.response?.data?.error) {
             error = "Ada Kerusakan Server, Mohon Hubungi Administrator"
         } else {
-            if (err.response.status === 403) {
+            if (err.response.status === 403 || err.response.status === 401) {
                 store.dispatch(clearAuth())
             }
             error = err.response.data.error
